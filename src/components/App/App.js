@@ -87,25 +87,3 @@ export default class App extends Component {
     )
   }
 }
-
-// debounce = (...args) => {
-//   let timer
-//   let argValue = args
-//   return function () {
-//     if (timer) clearTimeout(timer)
-//     timer = setTimeout(() => {
-//       timer = null
-//       this.searchMovies.apply(this, argValue)
-//     }, 500)
-//   }
-// }
-
-// function debounceFunc(callback, delay) {
-//   let timeout
-//   return fun9ction () {
-//     clearTimeout(timeout)
-//     timeout = setTimeout(callback, delay)
-//   }
-// }
-
-// optimizedFn = () => useCallback(this.debounce(this.searchMovies), [])

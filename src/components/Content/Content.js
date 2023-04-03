@@ -2,6 +2,7 @@ import React from 'react'
 import MovieCard from '../MovieCard/MovieCard'
 import './Content.css'
 import { Alert, Pagination } from 'antd'
+import { debounce } from 'lodash'
 
 function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, totalItems }) {
   if (!movies) return null
@@ -12,6 +13,8 @@ function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, 
     return <MovieCard movie={movie} key={id} />
   })
 
+  const debounceOnChange = debounce((value) => searchMovies(value), 400)
+
   return (
     <>
       <div className="wrapper">
@@ -19,8 +22,9 @@ function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, 
           type="text"
           className="search"
           placeholder="Type to search..."
-          onChange={(e) => searchMovies(e.target.value)}
-          value={inputValue}
+          // onChange={(e) => searchMovies(e.target.value)}
+          onChange={(e) => debounceOnChange(e.target.value)}
+          // value={inputValue}
           autoFocus
         />
 
