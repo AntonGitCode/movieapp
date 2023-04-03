@@ -1,0 +1,14 @@
+
+.spinner {
+  margin-top: 40vh;
+  display: flex;
+  justify-content: center;
+  transform: scale(2, 2);
+}
+
+.spinner::after {
+  position: absolute;
+  transform: translateY(7vh) ;
+  content: "Loading..";
+}
+
