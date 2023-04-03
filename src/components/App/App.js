@@ -2,31 +2,9 @@ import './App.css'
 import React, { Component } from 'react'
 import 'antd/dist/reset.css'
 import apiMovies from '../ApiMovies/ApiMovies'
-import MovieCardsList from '../MovieCardsList/MovieCardsList'
+import Content from '../Content/Content'
 import { Spin } from 'antd'
 import ErrorIndicator from '../error-indicator'
-
-// debounce = (...args) => {
-//   let timer
-//   let argValue = args
-//   return function () {
-//     if (timer) clearTimeout(timer)
-//     timer = setTimeout(() => {
-//       timer = null
-//       this.searchMovies.apply(this, argValue)
-//     }, 500)
-//   }
-// }
-
-// function debounceFunc(callback, delay) {
-//   let timeout
-//   return fun9ction () {
-//     clearTimeout(timeout)
-//     timeout = setTimeout(callback, delay)
-//   }
-// }
-
-// optimizedFn = () => useCallback(this.debounce(this.searchMovies), [])
 
 export default class App extends Component {
   state = {
@@ -37,11 +15,24 @@ export default class App extends Component {
     inputValue: '',
   }
 
+  apiMovies = new apiMovies()
+
   componentDidMount() {
     this.updateMovies(this.state.inputValue, this.state.currentPage)
   }
 
-  apiMovies = new apiMovies()
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentPage !== this.state.currentPage) {
+      this.updateMovies(this.state.inputValue, this.state.currentPage)
+    }
+  }
+
+  onChangePage = (page) => {
+    this.setState({ currentPage: page })
+    // this.updateMovies(this.state.inputValue, page)
+    // если заКомментировать componentDidUpdate и расКомментировать строчку здесь выше, то будет как будто Тоже Самое
+    // то есть тоже Дважды рендеринг
+  }
 
   onError = (err) => {
     this.setState({
@@ -72,18 +63,13 @@ export default class App extends Component {
     } else this.setState({ inputValue: '', movies: [] })
   }
 
-  onChangePage = (page) => {
-    this.setState({ currentPage: page })
-    this.updateMovies(this.state.inputValue, page)
-  }
-
   render() {
     const { movies, loading, error, currentPage, inputValue, totalItems } = this.state
     const hasData = !(loading || error)
     const errorMessage = error ? <ErrorIndicator error={error} /> : null
     const spinner = loading ? <Spin className="spinner" size="large" /> : null
     const content = hasData ? (
-      <MovieCardsList
+      <Content
         movies={movies}
         searchMovies={this.searchMovies}
         currentPage={currentPage}
@@ -101,3 +87,25 @@ export default class App extends Component {
     )
   }
 }
+
+// debounce = (...args) => {
+//   let timer
+//   let argValue = args
+//   return function () {
+//     if (timer) clearTimeout(timer)
+//     timer = setTimeout(() => {
+//       timer = null
+//       this.searchMovies.apply(this, argValue)
+//     }, 500)
+//   }
+// }
+
+// function debounceFunc(callback, delay) {
+//   let timeout
+//   return fun9ction () {
+//     clearTimeout(timeout)
+//     timeout = setTimeout(callback, delay)
+//   }
+// }
+
+// optimizedFn = () => useCallback(this.debounce(this.searchMovies), [])

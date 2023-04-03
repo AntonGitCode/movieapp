@@ -1,13 +1,13 @@
 import React from 'react'
 import MovieCard from '../MovieCard/MovieCard'
-import './MovieCardsList.css'
+import './Content.css'
 import { Alert, Pagination } from 'antd'
 
-function MovieCardsList({ movies, searchMovies, currentPage, onChangePage, inputValue, totalItems }) {
+function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, totalItems }) {
   if (!movies) return null
   let moviesArr = [...movies]
 
-  const moviesList = moviesArr.map((movie) => {
+  const movieCardList = moviesArr.map((movie) => {
     const { id } = movie
     return <MovieCard movie={movie} key={id} />
   })
@@ -28,7 +28,8 @@ function MovieCardsList({ movies, searchMovies, currentPage, onChangePage, input
           <Alert className="info-message" type="info" message="Oops" description="Can't find any movie" banner />
         )}
 
-        <div className="container">{moviesList}</div>
+        <div className="container">{movieCardList}</div>
+
         {moviesArr.length ? (
           <Pagination
             defaultCurrent={1}
@@ -43,4 +44,4 @@ function MovieCardsList({ movies, searchMovies, currentPage, onChangePage, input
   )
 }
 
-export default MovieCardsList
+export default Content
