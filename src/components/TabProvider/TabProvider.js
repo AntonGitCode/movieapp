@@ -2,15 +2,23 @@ import React, { Component } from 'react'
 import { TabContext } from '../TabContext/TabContext'
 
 class TabProvider extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { activeTab: 0, inputSearch: '' }
-    this.setActiveTab = this.setActiveTab.bind(this)
+  state = {
+    activeTab: 0,
+    inputSearch: '',
+    currentPage: 1,
   }
 
-  setActiveTab(index) {
+  setActiveTab = (index) => {
+    console.log('setActiveTab to', index)
     this.setState({ activeTab: index })
   }
+
+  //////////////////////////////////
+  onChangePage = (page) => {
+    this.setState({ currentPage: page })
+  }
+
+  /////////////////////////////
 
   render() {
     const { activeTab, inputSearch } = this.state
@@ -18,8 +26,8 @@ class TabProvider extends Component {
 
     const contextValue = {
       activeTab,
-      inputSearch,
       setActiveTab: this.setActiveTab,
+      inputSearch, ///////////////////////////////////////
     }
 
     return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>

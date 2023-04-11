@@ -5,6 +5,10 @@ import Tab from '../Tab'
 import App from '../App'
 
 export default class GeneralApp extends Component {
+  state = {
+    inputValue: '',
+  }
+
   render() {
     return (
       <TabProvider>

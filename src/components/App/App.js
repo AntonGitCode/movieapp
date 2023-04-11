@@ -19,13 +19,15 @@ export default class App extends Component {
   apiMovies = new apiMovies()
 
   componentDidMount() {
-    this.updateMovies(this.state.inputValue, this.state.currentPage)
+    this.updateMovies()
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentPage !== this.state.currentPage) {
       this.updateMovies(this.state.inputValue, this.state.currentPage)
     }
+    if (prevState.inputValue !== this.state.inputValue && this.state.currentPage > 1) this.setState({ currentPage: 1 })
+    if (prevState.inputValue !== this.state.inputValue) this.updateMovies()
   }
 
   onChangePage = (page) => {
@@ -39,9 +41,10 @@ export default class App extends Component {
     })
   }
 
-  updateMovies = (value, page) => {
+  updateMovies = () => {
+    const { inputValue, currentPage } = this.state
     this.apiMovies
-      .getAllMovies(value, page)
+      .getAllMovies(inputValue, currentPage)
       .then(({ returnArr, totalItems }) => {
         this.setState({ movies: returnArr, totalItems: totalItems })
         this.setState({ loading: false, error: false })
@@ -54,12 +57,11 @@ export default class App extends Component {
       this.setState({ inputValue: '' })
       return
     }
-    this.setState({ currentPage: 1 })
-    if (value !== '') {
-      this.setState({ inputValue: value })
-      this.updateMovies(value, 1)
-    } else this.setState({ inputValue: '', movies: [] })
+    if (value !== '') this.setState({ inputValue: value })
+    else this.setState({ inputValue: '', movies: [] })
   }
+
+  //////////////////
 
   render() {
     const { movies, loading, error, currentPage, inputValue, totalItems } = this.state
@@ -77,6 +79,8 @@ export default class App extends Component {
         totalItems={totalItems}
       />
     ) : null
+
+    //////////////
     return (
       <TabContext.Consumer>
         {({ activeTab }) => (

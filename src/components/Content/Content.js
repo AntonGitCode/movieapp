@@ -13,7 +13,7 @@ function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, 
     return <MovieCard movie={movie} key={id} />
   })
 
-  const debounceOnChange = debounce((value) => searchMovies(value), 450)
+  const debounceOnChange = debounce((value) => searchMovies(value), 400)
 
   return (
     <>
@@ -22,7 +22,6 @@ function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, 
           type="text"
           className="search"
           placeholder="Type to search..."
-          // onChange={(e) => searchMovies(e.target.value)}
           onChange={(e) => debounceOnChange(e.target.value)}
           value={inputValue}
           autoFocus
