@@ -3,7 +3,6 @@ import MovieCard from '../MovieCard/MovieCard'
 import './Content.css'
 import { Alert, Pagination } from 'antd'
 import { debounce } from 'lodash'
-// import { TabContext } from '../TabContext/TabContext'
 
 function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, totalItems }) {
   if (!movies) return null
@@ -17,10 +16,7 @@ function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, 
   const debounceOnChange = debounce((value) => searchMovies(value), 450)
 
   return (
-    // <TabContext.Consumer>
-    //   {({ activeTab }) => (
     <>
-      {/* {activeTab === 0 && ( */}
       <div className="wrapper">
         <input
           type="text"
@@ -48,10 +44,7 @@ function Content({ movies, searchMovies, currentPage, onChangePage, inputValue, 
           />
         ) : null}
       </div>
-      {/* )} */}
     </>
-    // )}
-    // </TabContext.Consumer>
   )
 }
 

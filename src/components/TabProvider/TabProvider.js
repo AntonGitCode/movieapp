@@ -21,6 +21,7 @@ class TabProvider extends Component {
 
     const contextValue = {
       activeTab,
+      input: '',
       setActiveTab: this.setActiveTab,
     }
 

@@ -30,9 +30,6 @@ export default class App extends Component {
 
   onChangePage = (page) => {
     this.setState({ currentPage: page })
-    // this.updateMovies(this.state.inputValue, page)
-    // если заКомментировать componentDidUpdate и расКомментировать строчку здесь выше, то будет как будто Тоже Самое
-    // то есть тоже Дважды рендеринг
   }
 
   onError = (err) => {
