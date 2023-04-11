@@ -5,6 +5,7 @@ import apiMovies from '../ApiMovies/ApiMovies'
 import Content from '../Content/Content'
 import { Spin } from 'antd'
 import ErrorIndicator from '../error-indicator'
+import { TabContext } from '../TabContext/TabContext'
 
 export default class App extends Component {
   state = {
@@ -68,6 +69,7 @@ export default class App extends Component {
     const hasData = !(loading || error)
     const errorMessage = error ? <ErrorIndicator error={error} /> : null
     const spinner = loading ? <Spin className="spinner" size="large" /> : null
+
     const content = hasData ? (
       <Content
         movies={movies}
@@ -79,11 +81,19 @@ export default class App extends Component {
       />
     ) : null
     return (
-      <>
-        {errorMessage}
-        {spinner}
-        {content}
-      </>
+      <TabContext.Consumer>
+        {({ activeTab }) => (
+          <div>
+            {activeTab === 0 && (
+              <>
+                {errorMessage}
+                {spinner}
+                {content}
+              </>
+            )}
+          </div>
+        )}
+      </TabContext.Consumer>
     )
   }
 }

@@ -1,0 +1,22 @@
+
+.tabs {
+  padding: 0;
+  width: 64px;
+  height: 52px;
+  border: none;
+  border-bottom: 1px solid #D9D9D9;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+  flex-wrap: nowrap;
+}
+
