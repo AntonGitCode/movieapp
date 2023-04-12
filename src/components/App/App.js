@@ -9,29 +9,16 @@ import { TabContext } from '../TabContext/TabContext'
 
 export default class App extends Component {
   state = {
-    movies: null,
-    loading: true,
-    currentPage: 1,
+    movies: [],
     totalItems: null,
-    inputValue: '',
+    loading: true,
+    error: false,
   }
 
   apiMovies = new apiMovies()
 
   componentDidMount() {
     this.updateMovies()
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.currentPage !== this.state.currentPage) {
-      this.updateMovies(this.state.inputValue, this.state.currentPage)
-    }
-    if (prevState.inputValue !== this.state.inputValue && this.state.currentPage > 1) this.setState({ currentPage: 1 })
-    if (prevState.inputValue !== this.state.inputValue) this.updateMovies()
-  }
-
-  onChangePage = (page) => {
-    this.setState({ currentPage: page })
   }
 
   onError = (err) => {
@@ -42,9 +29,10 @@ export default class App extends Component {
   }
 
   updateMovies = () => {
-    const { inputValue, currentPage } = this.state
+    const { inputSearch, currentPage } = this.context
+
     this.apiMovies
-      .getAllMovies(inputValue, currentPage)
+      .getAllMovies(inputSearch, currentPage)
       .then(({ returnArr, totalItems }) => {
         this.setState({ movies: returnArr, totalItems: totalItems })
         this.setState({ loading: false, error: false })
@@ -52,35 +40,13 @@ export default class App extends Component {
       .catch(this.onError)
   }
 
-  searchMovies = (value) => {
-    if (value.charAt(0) === ' ') {
-      this.setState({ inputValue: '' })
-      return
-    }
-    if (value !== '') this.setState({ inputValue: value })
-    else this.setState({ inputValue: '', movies: [] })
-  }
-
-  //////////////////
-
   render() {
-    const { movies, loading, error, currentPage, inputValue, totalItems } = this.state
+    let { inputSearch, currentPage, debounceOnChange, onChangePage } = this.context
+    const { movies, loading, error, totalItems } = this.state
     const hasData = !(loading || error)
     const errorMessage = error ? <ErrorIndicator error={error} /> : null
     const spinner = loading ? <Spin className="spinner" size="large" /> : null
 
-    const content = hasData ? (
-      <Content
-        movies={movies}
-        searchMovies={this.searchMovies}
-        currentPage={currentPage}
-        onChangePage={this.onChangePage}
-        inputValue={inputValue}
-        totalItems={totalItems}
-      />
-    ) : null
-
-    //////////////
     return (
       <TabContext.Consumer>
         {({ activeTab }) => (
@@ -89,7 +55,17 @@ export default class App extends Component {
               <>
                 {errorMessage}
                 {spinner}
-                {content}
+                {hasData ? (
+                  <Content
+                    movies={movies}
+                    debounceOnChange={debounceOnChange}
+                    currentPage={currentPage}
+                    onChangePage={onChangePage}
+                    inputSearch={inputSearch}
+                    totalItems={totalItems}
+                    updateMovies={this.updateMovies}
+                  ></Content>
+                ) : null}
               </>
             )}
           </div>
@@ -98,3 +74,5 @@ export default class App extends Component {
     )
   }
 }
+
+App.contextType = TabContext
