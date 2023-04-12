@@ -46,7 +46,7 @@ export default class App extends Component {
     const hasData = !(loading || error)
     const errorMessage = error ? <ErrorIndicator error={error} /> : null
     const spinner = loading ? <Spin className="spinner" size="large" /> : null
-
+    console.log(this.state.movies)
     return (
       <TabContext.Consumer>
         {({ activeTab }) => (
