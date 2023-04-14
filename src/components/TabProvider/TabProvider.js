@@ -14,7 +14,6 @@ class TabProvider extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.inputSearch !== this.state.inputSearch && this.state.currentPage > 1)
       this.setState({ currentPage: 1 })
-    console.log(' ratedMovies Избранное: ', this.state.ratedMovies)
   }
 
   setActiveTab = (index) => {

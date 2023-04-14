@@ -8,9 +8,6 @@ export const TabContext = React.createContext({
   onChangePage: () => {},
   debounceOnChange: () => {},
   movies: [],
-  setMovies: () => {},
   ratedMovies: [],
+  setMovies: () => {},
 })
-
-// export const TabProvider = TabContext.Provider
-// export const TabConsumer = TabContext.Consumer

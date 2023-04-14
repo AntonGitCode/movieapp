@@ -42,8 +42,6 @@ export default class App extends Component {
 
         setMovies(returnArr, ratedMovies)
         this.setState({ totalItems: totalItems, loading: false, error: false })
-        // this.setState({ movies: returnArr, totalItems: totalItems })
-        // this.setState({ loading: false, error: false })
       })
       .catch(this.onError)
   }
