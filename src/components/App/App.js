@@ -9,7 +9,6 @@ import { TabContext } from '../TabContext/TabContext'
 
 export default class App extends Component {
   state = {
-    movies: [],
     totalItems: null,
     loading: true,
     error: false,
@@ -29,24 +28,33 @@ export default class App extends Component {
   }
 
   updateMovies = () => {
-    const { inputSearch, currentPage } = this.context
+    const { inputSearch, currentPage, setMovies, ratedMovies } = this.context
 
     this.apiMovies
       .getAllMovies(inputSearch, currentPage)
       .then(({ returnArr, totalItems }) => {
-        this.setState({ movies: returnArr, totalItems: totalItems })
-        this.setState({ loading: false, error: false })
+        returnArr.forEach((item) => {
+          const matchingItem = ratedMovies.find((element) => element.id === item.id)
+          if (matchingItem) {
+            item['rated'] = matchingItem.rated
+          }
+        })
+
+        setMovies(returnArr, ratedMovies)
+        this.setState({ totalItems: totalItems, loading: false, error: false })
+        // this.setState({ movies: returnArr, totalItems: totalItems })
+        // this.setState({ loading: false, error: false })
       })
       .catch(this.onError)
   }
 
   render() {
-    let { inputSearch, currentPage, debounceOnChange, onChangePage } = this.context
-    const { movies, loading, error, totalItems } = this.state
+    let { inputSearch, currentPage, debounceOnChange, onChangePage, movies } = this.context
+    const { loading, error, totalItems } = this.state
+
     const hasData = !(loading || error)
     const errorMessage = error ? <ErrorIndicator error={error} /> : null
     const spinner = loading ? <Spin className="spinner" size="large" /> : null
-    console.log(this.state.movies)
     return (
       <TabContext.Consumer>
         {({ activeTab }) => (

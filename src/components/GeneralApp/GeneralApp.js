@@ -6,7 +6,6 @@ import App from '../App'
 
 export default class GeneralApp extends Component {
   render() {
-    console.log(' render GENERAL APP ')
     return (
       <TabProvider>
         <Tabs>
