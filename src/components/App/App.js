@@ -47,7 +47,8 @@ export default class App extends Component {
   }
 
   render() {
-    let { inputSearch, currentPage, debounceOnChange, onChangePage, movies, ratedMovies } = this.context
+    let { inputSearch, currentPage, debounceOnChange, onChangePage, movies, ratedMovies, onChangePageRated } =
+      this.context
     const { loading, error, totalItems } = this.state
 
     const hasData = !(loading || error)
@@ -70,6 +71,7 @@ export default class App extends Component {
                 updateMovies={this.updateMovies}
                 activeTab={activeTab}
                 ratedMovies={ratedMovies}
+                onChangePageRated={onChangePageRated}
               ></Content>
             ) : null}
           </div>

@@ -20,6 +20,7 @@ export default class Content extends Component {
       movies,
       activeTab,
       ratedMovies,
+      currentPageRated,
       onChangePageRated,
     } = this.props
 
@@ -84,7 +85,7 @@ export default class Content extends Component {
             <Pagination
               defaultCurrent={1}
               className="pagination"
-              current={currentPage}
+              currentPageRated={currentPageRated}
               onChangePageRated={(page) => onChangePageRated(page)}
               total={ratedMovies.length}
             />
