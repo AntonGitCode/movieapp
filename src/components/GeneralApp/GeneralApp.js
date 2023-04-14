@@ -13,7 +13,7 @@ export default class GeneralApp extends Component {
             <App />
           </Tab>
           <Tab label="Rated">
-            <h1>Content of Tab 2</h1>
+            <App />
           </Tab>
         </Tabs>
       </TabProvider>

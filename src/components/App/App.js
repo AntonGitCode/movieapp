@@ -47,7 +47,7 @@ export default class App extends Component {
   }
 
   render() {
-    let { inputSearch, currentPage, debounceOnChange, onChangePage, movies } = this.context
+    let { inputSearch, currentPage, debounceOnChange, onChangePage, movies, ratedMovies } = this.context
     const { loading, error, totalItems } = this.state
 
     const hasData = !(loading || error)
@@ -57,23 +57,21 @@ export default class App extends Component {
       <TabContext.Consumer>
         {({ activeTab }) => (
           <div>
-            {activeTab === 0 && (
-              <>
-                {errorMessage}
-                {spinner}
-                {hasData ? (
-                  <Content
-                    movies={movies}
-                    debounceOnChange={debounceOnChange}
-                    currentPage={currentPage}
-                    onChangePage={onChangePage}
-                    inputSearch={inputSearch}
-                    totalItems={totalItems}
-                    updateMovies={this.updateMovies}
-                  ></Content>
-                ) : null}
-              </>
-            )}
+            {errorMessage}
+            {spinner}
+            {hasData ? (
+              <Content
+                movies={movies}
+                debounceOnChange={debounceOnChange}
+                currentPage={currentPage}
+                onChangePage={onChangePage}
+                inputSearch={inputSearch}
+                totalItems={totalItems}
+                updateMovies={this.updateMovies}
+                activeTab={activeTab}
+                ratedMovies={ratedMovies}
+              ></Content>
+            ) : null}
           </div>
         )}
       </TabContext.Consumer>

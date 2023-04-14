@@ -36,6 +36,7 @@ class TabProvider extends Component {
   }
 
   setMovies = (newMovies, newRatedMovies) => {
+    console.log('в SET MOVIES newRatedMovies', newRatedMovies)
     this.setState({ movies: newMovies, ratedMovies: newRatedMovies })
   }
 
