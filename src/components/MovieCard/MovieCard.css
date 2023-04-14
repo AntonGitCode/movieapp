@@ -13,10 +13,8 @@
 
   .card-info {
     position: relative;
-    display: flex;
+    /* display: flex; */
     flex-wrap: wrap;
-    gap: .5rem;
-    /* flex-direction: column; */
     padding-top: .8rem;
     padding-bottom: .8rem;
     padding-right: .9rem;
@@ -43,10 +41,12 @@
       display: -webkit-box; 
       -webkit-box-orient: vertical; 
     }
+
 .rate {
   white-space: nowrap;
   transform: translateX(-27px) scale(0.8);
-  /* align-self: flex-start; */
+  position: absolute;
+  bottom: 10px;
 }
 
 .circle {

@@ -7,21 +7,19 @@ const Tabs = ({ children }) => {
 
   const { activeTab } = tabContext
   const setActiveTab = tabContext.setActiveTab
-  // const { activeTab, setActiveTab } = useContext(TabContext)
-  // const currentTab = children[activeTab]
 
   return (
-    <div>
+    <div className="main-container">
       <div className="tabs-container">
-        {React.Children.map(children, (child, index) => (
-          <button className="tabs" onClick={() => setActiveTab(index)}>
-            {child.props.label}
-          </button>
-        ))}
+        <div className="tabs-wrapper">
+          {React.Children.map(children, (child, index) => (
+            <button className={`tabs ${activeTab === index ? 'active' : ''}`} onClick={() => setActiveTab(index)}>
+              {child.props.label}
+            </button>
+          ))}
+        </div>
       </div>
       <div>{children[activeTab]}</div>
-      {/* {React.cloneElement(currentTab, { activeTab })} */}
-      {/* <div>{children[activeTab]}</div> */}
     </div>
   )
 }

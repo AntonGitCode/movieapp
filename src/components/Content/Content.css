@@ -1,5 +1,4 @@
 .wrapper {
-  width: 1010px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -10,7 +9,6 @@
 }
 
 .container {
-  width: 1010px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -35,7 +33,6 @@
   justify-content: center;
   outline: none;
   border: none;
-  width: 1010px;
   height: 40px;
   margin: 0 36px;
   padding-left: 1rem;
@@ -44,6 +41,7 @@
   font-family: 'Inter UI';
   font-size: 16px;
   line-height: 22px;
+  width: 95%;
 
 }
 
@@ -51,7 +49,6 @@
   display: flex;
   justify-content: center;
   width: 80%;
-  /* margin-top: 10vh; */
   margin: 10vh auto;
 }
 

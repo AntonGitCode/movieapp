@@ -23,34 +23,33 @@ export default class MovieCard extends Component {
 
     let newRatedMovie = []
     let newRatedMovies = []
-    newRatedMovie[0] = movie
-    newRatedMovie[0]['rated'] = number
 
-    console.log('сформировался обн эл для Rated', newRatedMovie)
-    console.log(' if (ratedMovies.length ', ratedMovies.length, '>0')
-    if (ratedMovies.length > 0) {
-      console.log('да перебираем ratedMovies из контекста ', ratedMovies)
-      let newRatedMovies = [...ratedMovies]
-      console.log('проверка CurrnetMovieId = ', currentMovieId)
-      let indx = newRatedMovies.findIndex((obj) => obj.id === currentMovieId)
-      console.log('есть ли уже в Rated этот фильм ', indx)
-
-      if (indx >= 0) {
-        newRatedMovies[indx]['rated'] = number
-        console.log('===== SET MOVIES (New Movies', newMovies, ', newRatedMovies ', newRatedMovies, ')')
-        setMovies(newMovies, newRatedMovies)
-      } else {
-        console.log('в рейтет фильма не было и надо его добавить')
-        newRatedMovies = [...newRatedMovies, ...newRatedMovie]
-        console.log('подготовили массив для Rated: ', newRatedMovies)
-        console.log('===== SET MOVIES (New Movies', newMovies, ', newRatedMovies ', newRatedMovies, ')')
+    if (number === 0) {
+      if (ratedMovies.length > 0) {
+        newRatedMovies = [...ratedMovies]
+        let indx = newRatedMovies.findIndex((obj) => obj.id === currentMovieId)
+        newRatedMovies = [...ratedMovies.slice(0, indx), ...ratedMovies.slice(indx + 1)]
         setMovies(newMovies, newRatedMovies)
       }
     } else {
-      console.log('====== избранное пусто было')
-      newRatedMovies[0] = newRatedMovie[0]
-      console.log('===== SET MOVIES ====', newRatedMovies)
-      setMovies(newMovies, newRatedMovies)
+      newRatedMovie[0] = movie
+      newRatedMovie[0]['rated'] = number
+
+      if (ratedMovies.length > 0) {
+        let newRatedMovies = [...ratedMovies]
+        let indx = newRatedMovies.findIndex((obj) => obj.id === currentMovieId)
+
+        if (indx >= 0) {
+          newRatedMovies[indx]['rated'] = number
+          setMovies(newMovies, newRatedMovies)
+        } else {
+          newRatedMovies = [...newRatedMovies, ...newRatedMovie]
+          setMovies(newMovies, newRatedMovies)
+        }
+      } else {
+        newRatedMovies[0] = newRatedMovie[0]
+        setMovies(newMovies, newRatedMovies)
+      }
     }
   }
 
