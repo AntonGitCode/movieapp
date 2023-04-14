@@ -24,6 +24,10 @@ class TabProvider extends Component {
     this.setState({ currentPage: page })
   }
 
+  onChangePageRated = (page) => {
+    this.setState({ currentPageRated: page })
+  }
+
   debounceOnChange = debounce((value) => this.searchMovies(value), 400)
 
   searchMovies = (value) => {
@@ -41,7 +45,7 @@ class TabProvider extends Component {
   }
 
   render() {
-    const { activeTab, inputSearch, currentPage, movies, ratedMovies } = this.state
+    const { activeTab, inputSearch, currentPage, movies, ratedMovies, currentPageRated } = this.state
     const { children } = this.props
 
     const contextValue = {
@@ -54,6 +58,8 @@ class TabProvider extends Component {
       movies,
       setMovies: this.setMovies,
       ratedMovies,
+      currentPageRated,
+      onChangePageRated: this.onChangePageRated,
     }
 
     return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>

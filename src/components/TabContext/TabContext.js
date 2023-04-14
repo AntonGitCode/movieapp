@@ -5,9 +5,11 @@ export const TabContext = React.createContext({
   setActiveTab: () => {},
   inputSearch: '',
   currentPage: 1,
+  currentPageRated: 1,
   onChangePage: () => {},
   debounceOnChange: () => {},
   movies: [],
   ratedMovies: [],
   setMovies: () => {},
+  onChangePageRated: () => {},
 })

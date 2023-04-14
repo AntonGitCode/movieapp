@@ -11,8 +11,17 @@ export default class Content extends Component {
   }
 
   render() {
-    const { inputSearch, currentPage, totalItems, debounceOnChange, onChangePage, movies, activeTab, ratedMovies } =
-      this.props
+    const {
+      inputSearch,
+      currentPage,
+      totalItems,
+      debounceOnChange,
+      onChangePage,
+      movies,
+      activeTab,
+      ratedMovies,
+      onChangePageRated,
+    } = this.props
 
     let moviesArr = [...movies]
     let ratedMoviesArr = [...ratedMovies]
@@ -62,7 +71,7 @@ export default class Content extends Component {
             </div>
           )}
 
-          {activeTab === 0 && movies.length ? (
+          {activeTab === 0 && movies.length > 0 && (
             <Pagination
               defaultCurrent={1}
               className="pagination"
@@ -70,7 +79,16 @@ export default class Content extends Component {
               onChange={(page) => onChangePage(page)}
               total={totalItems}
             />
-          ) : null}
+          )}
+          {activeTab === 1 && ratedMovies.length > 0 && (
+            <Pagination
+              defaultCurrent={1}
+              className="pagination"
+              current={currentPage}
+              onChangePageRated={(page) => onChangePageRated(page)}
+              total={ratedMovies.length}
+            />
+          )}
         </div>
       </>
     )
