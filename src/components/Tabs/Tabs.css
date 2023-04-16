@@ -31,9 +31,7 @@
 .main-container {
   width: 1010px;
   margin: 0 auto;
-  flex-wrap: wrap;
   background-color: white;
-  justify-content: center;
   padding-top: 2rem;
   padding-bottom: 2rem;
   height: 100vh;
