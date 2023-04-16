@@ -28,10 +28,11 @@ export default class App extends Component {
   }
 
   updateMovies = () => {
-    const { inputSearch, currentPage, setMovies, ratedMovies } = this.context
+    const { inputSearch, currentPage, setMovies, ratedMovies, guestSessionId } = this.context
 
+    const headers = { Authorization: `Bearer ${guestSessionId}` }
     this.apiMovies
-      .getAllMovies(inputSearch, currentPage)
+      .getAllMovies(inputSearch, currentPage, headers)
       .then(({ returnArr, totalItems }) => {
         returnArr.forEach((item) => {
           const matchingItem = ratedMovies.find((element) => element.id === item.id)
