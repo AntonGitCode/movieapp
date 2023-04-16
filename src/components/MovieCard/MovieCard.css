@@ -31,15 +31,27 @@
       font-size: 12px;
       line-height: 22px;
       color: #827E7E;
+      padding-top: 7px;
     }
 
     .card-description {
+      padding-top: 7px;
       font-size: 12px;
       line-height: 22px;
       overflow: hidden;
-      -webkit-line-clamp: 6;
+      -webkit-line-clamp: 5;
       display: -webkit-box; 
       -webkit-box-orient: vertical; 
+    }
+
+    .card-description.clamp--four {
+      -webkit-line-clamp: 4;
+    }
+    .card-description.clamp--three {
+      -webkit-line-clamp: 3;
+    }
+    .card-description.clamp--two {
+      -webkit-line-clamp: 2;
     }
 
 .rate {
@@ -47,6 +59,7 @@
   transform: translateX(-27px) scale(0.8);
   position: absolute;
   bottom: 10px;
+  z-index: 101;
 }
 
 .circle {
@@ -78,4 +91,9 @@
 
 .circle.border-genius {
   border-color: #66E900;
+}
+
+.genres {
+  padding-top: 7px;
+  line-height: 25px;
 }

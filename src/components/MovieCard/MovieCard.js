@@ -3,7 +3,7 @@ import 'antd/dist/reset.css'
 import './MovieCard.css'
 import { format } from 'date-fns'
 import { enGB } from 'date-fns/locale'
-import { Rate } from 'antd'
+import { Rate, Tag } from 'antd'
 import { TabContext } from '../TabContext/TabContext'
 
 export default class MovieCard extends Component {
@@ -53,10 +53,22 @@ export default class MovieCard extends Component {
     }
   }
 
+  getGenres = () => {
+    const { movie } = this.props
+    const { genre_ids } = movie
+    const { genres } = this.context
+
+    const genres_array = genre_ids.map((id) => {
+      const genre = genres.genres.find((obj) => obj.id === id)
+      return genre ? genre.name : null
+    })
+
+    return genres_array
+  }
+
   render() {
     const { movie } = this.props
     const { movies, activeTab } = this.context
-
     let ratedStars = 0
     if (activeTab === 0) {
       movies.forEach((item) => {
@@ -66,14 +78,19 @@ export default class MovieCard extends Component {
     }
     if (activeTab === 1) ratedStars = movie['rated']
 
+    const genresArr = this.getGenres()
     const { title, overview, release_date, poster_path, vote_average } = movie
     const posterUrl = 'https://image.tmdb.org/t/p/w185/' + poster_path
     const releaseDate = format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB })
+    let descriptionLines = ''
     let circleColorRate = ''
     if (vote_average <= 3) circleColorRate = 'border-bad'
     if (vote_average > 3 && vote_average <= 5) circleColorRate = 'border-good'
     if (vote_average > 5 && vote_average <= 7) circleColorRate = 'border-best'
     if (vote_average > 7) circleColorRate = 'border-genius'
+    if (title.length > 19) descriptionLines = 'clamp--four'
+    if (title.length > 35) descriptionLines = 'clamp--three'
+    if (title.length > 50) descriptionLines = 'clamp--two'
 
     return (
       <>
@@ -83,8 +100,13 @@ export default class MovieCard extends Component {
             <div className="card-info">
               <div className={`circle ${circleColorRate}`}>{vote_average.toFixed(1)}</div>
               <div className="card-title">{title}</div>
+              <div className="genres">
+                {genresArr.map((genreItem, index) => {
+                  return <Tag key={index}>{genreItem}</Tag>
+                })}
+              </div>
               <div className="card-date">{releaseDate}</div>
-              <div className="card-description">{overview}</div>
+              <div className={`card-description ${descriptionLines}`}>{overview}</div>
               <Rate className="rate" count={10} value={ratedStars} onChange={this.onChangeStar} />
             </div>
           </div>

@@ -33,22 +33,21 @@ export default class App extends Component {
     const headers = { Authorization: `Bearer ${guestSessionId}` }
     this.apiMovies
       .getAllMovies(inputSearch, currentPage, headers)
-      .then(({ returnArr, totalItems }) => {
+      .then(({ returnArr, totalItems, genres }) => {
         returnArr.forEach((item) => {
           const matchingItem = ratedMovies.find((element) => element.id === item.id)
           if (matchingItem) {
             item['rated'] = matchingItem.rated
           }
         })
-
-        setMovies(returnArr, ratedMovies)
+        setMovies(returnArr, ratedMovies, genres)
         this.setState({ totalItems: totalItems, loading: false, error: false })
       })
       .catch(this.onError)
   }
 
   render() {
-    let { inputSearch, currentPage, debounceOnChange, onChangePage, movies, ratedMovies, onChangePageRated } =
+    let { inputSearch, currentPage, debounceOnChange, onChangePage, movies, ratedMovies, onChangePageRated, genres } =
       this.context
     const { loading, error, totalItems } = this.state
 
@@ -73,6 +72,7 @@ export default class App extends Component {
                 activeTab={activeTab}
                 ratedMovies={ratedMovies}
                 onChangePageRated={onChangePageRated}
+                genres={genres}
               ></Content>
             ) : null}
           </div>

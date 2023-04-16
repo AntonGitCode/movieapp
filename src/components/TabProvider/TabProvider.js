@@ -10,6 +10,7 @@ class TabProvider extends Component {
     movies: [],
     ratedMovies: [],
     guestSessionId: null,
+    genres: [],
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -42,12 +43,13 @@ class TabProvider extends Component {
     else this.setState({ inputSearch: '' })
   }
 
-  setMovies = (newMovies, newRatedMovies) => {
-    this.setState({ movies: newMovies, ratedMovies: newRatedMovies })
+  setMovies = (newMovies, newRatedMovies, genres = this.state.genres) => {
+    this.setState({ movies: newMovies, ratedMovies: newRatedMovies, genres: genres })
   }
 
   render() {
-    const { activeTab, inputSearch, currentPage, movies, ratedMovies, currentPageRated, guestSessionId } = this.state
+    const { activeTab, inputSearch, currentPage, movies, ratedMovies, currentPageRated, guestSessionId, genres } =
+      this.state
     const { children } = this.props
 
     const contextValue = {
@@ -63,6 +65,7 @@ class TabProvider extends Component {
       currentPageRated,
       onChangePageRated: this.onChangePageRated,
       guestSessionId,
+      genres,
     }
 
     return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>

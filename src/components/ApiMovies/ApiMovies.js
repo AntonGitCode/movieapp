@@ -22,6 +22,11 @@ export default class apiMovies {
       item['rated'] = 0
       return item
     })
-    return { returnArr: returnArr, totalItems: total_results }
+    const genres = await this.getResource(
+      'https://api.themoviedb.org/3/genre/movie/list?api_key=a0ebd979d0247d439d1914491e74f506&language=en-US',
+      headers
+    )
+
+    return { returnArr: returnArr, totalItems: total_results, genres: genres }
   }
 }
