@@ -5,6 +5,7 @@ import { format } from 'date-fns'
 import { enGB } from 'date-fns/locale'
 import { Rate, Tag } from 'antd'
 import { TabContext } from '../TabContext/TabContext'
+import PropTypes from 'prop-types'
 
 export default class MovieCard extends Component {
   onChangeStar = (number) => {
@@ -121,6 +122,6 @@ export default class MovieCard extends Component {
 
 MovieCard.contextType = TabContext
 
-// MovieCard.propTypes = {
-//   movie:
-// }
+MovieCard.propTypes = {
+  movie: PropTypes.arrayOf(PropTypes.object),
+}

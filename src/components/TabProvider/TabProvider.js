@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { TabContext } from '../TabContext/TabContext'
 import { debounce } from 'lodash'
+import PropTypes from 'prop-types'
 
 class TabProvider extends Component {
   state = {
@@ -70,6 +71,10 @@ class TabProvider extends Component {
 
     return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>
   }
+}
+
+TabProvider.propTypes = {
+  guestSessionId: PropTypes.string.isRequired,
 }
 
 export default TabProvider
