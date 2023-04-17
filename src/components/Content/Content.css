@@ -9,6 +9,7 @@
 }
 
 .container {
+  min-width: 100%;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -17,6 +18,14 @@
   gap: 36px;
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
 }
 
 .container::after {
