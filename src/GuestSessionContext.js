@@ -18,6 +18,13 @@ export class GuestSessionProvider extends React.Component {
     return await res.json()
   }
 
+  onError = (err) => {
+    this.setState({
+      error: true,
+      loading: false,
+    })
+  }
+
   async getSession() {
     const session = await this.getResource(
       `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=a0ebd979d0247d439d1914491e74f506`
@@ -34,7 +41,6 @@ export class GuestSessionProvider extends React.Component {
         ).catch((err) => {
           console.error('Status:', err.status, 'Error:', err)
         })
-        console.log('******* GuEST SESSION ***** genres ***', genres)
         this.setState({ genres: genres.genres })
       }
 
