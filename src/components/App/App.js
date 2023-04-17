@@ -47,8 +47,7 @@ export default class App extends Component {
   }
 
   render() {
-    let { inputSearch, currentPage, debounceOnChange, onChangePage, movies, ratedMovies, onChangePageRated, genres } =
-      this.context
+    let { inputSearch, currentPage } = this.context
     const { loading, error, totalItems } = this.state
 
     const hasData = !(loading || error)
@@ -56,23 +55,16 @@ export default class App extends Component {
     const spinner = loading ? <Spin className="spinner" size="large" /> : null
     return (
       <TabContext.Consumer>
-        {({ activeTab }) => (
+        {() => (
           <div>
             {errorMessage}
             {spinner}
             {hasData ? (
               <Content
-                movies={movies}
-                debounceOnChange={debounceOnChange}
                 currentPage={currentPage}
-                onChangePage={onChangePage}
                 inputSearch={inputSearch}
                 totalItems={totalItems}
                 updateMovies={this.updateMovies}
-                activeTab={activeTab}
-                ratedMovies={ratedMovies}
-                onChangePageRated={onChangePageRated}
-                genres={genres}
               ></Content>
             ) : null}
           </div>

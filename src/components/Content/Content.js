@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import MovieCard from '../MovieCard/MovieCard'
 import './Content.css'
 import { Alert, Pagination } from 'antd'
+import { TabContext } from '../TabContext/TabContext'
 
 export default class Content extends Component {
   componentDidUpdate(prevProps, prevState) {
@@ -11,18 +12,9 @@ export default class Content extends Component {
   }
 
   render() {
-    const {
-      inputSearch,
-      currentPage,
-      totalItems,
-      debounceOnChange,
-      onChangePage,
-      movies,
-      activeTab,
-      ratedMovies,
-      currentPageRated,
-      onChangePageRated,
-    } = this.props
+    const { inputSearch, currentPage, totalItems } = this.props
+    const { debounceOnChange, onChangePage, movies, activeTab, ratedMovies, currentPageRated, onChangePageRated } =
+      this.context
 
     let moviesArr = [...movies]
     let ratedMoviesArr = [...ratedMovies]
@@ -48,8 +40,8 @@ export default class Content extends Component {
             <Alert
               className="info-message"
               type="info"
-              message="Storage for rated movies"
-              description="Here you can save your rated movies"
+              message="This is place for your rated movies"
+              description="Here you can save your rated movies. Just mark some movies with stars!"
               banner
             />
           )}
@@ -95,3 +87,5 @@ export default class Content extends Component {
     )
   }
 }
+
+Content.contextType = TabContext

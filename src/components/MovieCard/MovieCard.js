@@ -79,7 +79,7 @@ export default class MovieCard extends Component {
     if (activeTab === 1) ratedStars = movie['rated']
 
     const genresArr = this.getGenres()
-    const { title, overview, release_date, poster_path, vote_average } = movie
+    const { title, overview, release_date, poster_path, vote_average, genre_ids } = movie
     const posterUrl = 'https://image.tmdb.org/t/p/w185/' + poster_path
     const releaseDate = format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB })
     let descriptionLines = ''
@@ -91,6 +91,9 @@ export default class MovieCard extends Component {
     if (title.length > 19) descriptionLines = 'clamp--four'
     if (title.length > 35) descriptionLines = 'clamp--three'
     if (title.length > 50) descriptionLines = 'clamp--two'
+    if (title.length > 19 && genre_ids.length > 3) descriptionLines = 'clamp--three'
+    if (title.length > 35 && genre_ids.length > 3) descriptionLines = 'clamp--two'
+    if (title.length > 50 && genre_ids.length > 3) descriptionLines = 'clamp--one'
 
     return (
       <>
