@@ -11,7 +11,7 @@ class TabProvider extends Component {
     movies: [],
     ratedMovies: [],
     guestSessionId: null,
-    genres: [],
+    genres: null,
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -19,6 +19,7 @@ class TabProvider extends Component {
       this.setState({ currentPage: 1 })
     if (prevProps.guestSessionId !== this.props.guestSessionId)
       this.setState({ guestSessionId: this.props.guestSessionId })
+    if (prevProps.genres === null && this.props.genres) this.setState({ genres: this.props.genres })
   }
 
   setActiveTab = (index) => {
@@ -74,7 +75,7 @@ class TabProvider extends Component {
 }
 
 TabProvider.propTypes = {
-  guestSessionId: PropTypes.string.isRequired,
+  guestSessionId: PropTypes.string,
 }
 
 export default TabProvider

@@ -17,13 +17,6 @@ export default class apiMovies {
       console.error(' Status: ', err.status, ' Error:', err)
     })
 
-    const genres = await this.getResource(
-      'https://api.themoviedb.org/3/genre/movie/list?api_key=a0ebd979d0247d439d1914491e74f506&language=en-US',
-      headers
-    ).catch((err) => {
-      console.error(' Status: ', err.status, ' Error:', err)
-    })
-
     let { results, total_results } = res
     let returnArr = results.filter((item) => item.poster_path)
     returnArr.forEach((item) => {
@@ -31,6 +24,6 @@ export default class apiMovies {
       return item
     })
 
-    return { returnArr: returnArr, totalItems: total_results, genres: genres }
+    return { returnArr: returnArr, totalItems: total_results }
   }
 }

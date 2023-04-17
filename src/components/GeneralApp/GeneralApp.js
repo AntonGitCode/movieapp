@@ -7,9 +7,9 @@ import { GuestSessionContext } from '../../GuestSessionContext'
 
 export default class GeneralApp extends Component {
   render() {
-    const { guestSessionId } = this.context
+    const { guestSessionId, genres } = this.context
     return (
-      <TabProvider guestSessionId={guestSessionId}>
+      <TabProvider guestSessionId={guestSessionId} genres={genres}>
         <Tabs>
           <Tab label="Search">
             <App />

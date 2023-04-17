@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 
 export default class MovieCard extends Component {
   onChangeStar = (number) => {
-    const { movies, ratedMovies, setMovies } = this.context
+    const { movies, ratedMovies, setMovies, genres } = this.context
     const { movie } = this.props
     const newMovies = [...movies]
     let currentMovieId
@@ -30,7 +30,7 @@ export default class MovieCard extends Component {
         newRatedMovies = [...ratedMovies]
         let indx = newRatedMovies.findIndex((obj) => obj.id === currentMovieId)
         newRatedMovies = [...ratedMovies.slice(0, indx), ...ratedMovies.slice(indx + 1)]
-        setMovies(newMovies, newRatedMovies)
+        setMovies(newMovies, newRatedMovies, genres)
       }
     } else {
       newRatedMovie[0] = movie
@@ -38,18 +38,18 @@ export default class MovieCard extends Component {
 
       if (ratedMovies.length > 0) {
         let newRatedMovies = [...ratedMovies]
-        let indx = newRatedMovies.findIndex((obj) => obj.id === currentMovieId)
+        let indx = newRatedMovies.findIndex((obj) => obj.id === movie.id)
 
         if (indx >= 0) {
           newRatedMovies[indx]['rated'] = number
-          setMovies(newMovies, newRatedMovies)
+          setMovies(newMovies, newRatedMovies, genres)
         } else {
           newRatedMovies = [...newRatedMovies, ...newRatedMovie]
-          setMovies(newMovies, newRatedMovies)
+          setMovies(newMovies, newRatedMovies, genres)
         }
       } else {
         newRatedMovies[0] = newRatedMovie[0]
-        setMovies(newMovies, newRatedMovies)
+        setMovies(newMovies, newRatedMovies, genres)
       }
     }
   }
@@ -59,12 +59,14 @@ export default class MovieCard extends Component {
     const { genre_ids } = movie
     const { genres } = this.context
 
-    const genres_array = genre_ids.map((id) => {
-      const genre = genres.genres.find((obj) => obj.id === id)
-      return genre ? genre.name : null
-    })
+    if (movie && genre_ids && genres) {
+      const genres_array = genre_ids.map((id) => {
+        const genre = genres.find((obj) => obj.id === id)
+        return genre ? genre.name : null
+      })
 
-    return genres_array
+      return genres_array
+    } else return null
   }
 
   render() {
@@ -80,6 +82,7 @@ export default class MovieCard extends Component {
     if (activeTab === 1) ratedStars = movie['rated']
 
     const genresArr = this.getGenres()
+
     const { title, overview, release_date, poster_path, vote_average, genre_ids } = movie
     const posterUrl = 'https://image.tmdb.org/t/p/w185/' + poster_path
     const releaseDate = format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB })
@@ -104,11 +107,13 @@ export default class MovieCard extends Component {
             <div className="card-info">
               <div className={`circle ${circleColorRate}`}>{vote_average.toFixed(1)}</div>
               <div className="card-title">{title}</div>
-              <div className="genres">
-                {genresArr.map((genreItem, index) => {
-                  return <Tag key={index}>{genreItem}</Tag>
-                })}
-              </div>
+              {genresArr && (
+                <div className="genres">
+                  {genresArr.map((genreItem, index) => {
+                    return <Tag key={index}>{genreItem}</Tag>
+                  })}
+                </div>
+              )}
               <div className="card-date">{releaseDate}</div>
               <div className={`card-description ${descriptionLines}`}>{overview}</div>
               <Rate className="rate" count={10} value={ratedStars} onChange={this.onChangeStar} />
@@ -123,5 +128,5 @@ export default class MovieCard extends Component {
 MovieCard.contextType = TabContext
 
 MovieCard.propTypes = {
-  movie: PropTypes.arrayOf(PropTypes.object),
+  movie: PropTypes.object,
 }
