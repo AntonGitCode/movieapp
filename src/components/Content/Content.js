@@ -3,6 +3,7 @@ import MovieCard from '../MovieCard/MovieCard'
 import './Content.css'
 import { Alert, Pagination } from 'antd'
 import { TabContext } from '../TabContext/TabContext'
+import PropTypes from 'prop-types'
 
 export default class Content extends Component {
   componentDidUpdate(prevProps, prevState) {
@@ -89,3 +90,16 @@ export default class Content extends Component {
 }
 
 Content.contextType = TabContext
+
+Content.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  inputSearch: PropTypes.string.isRequired,
+  totalItems: PropTypes.number.isRequired,
+  updateMovies: PropTypes.func.isRequired,
+}
+
+Content.defaultProps = {
+  currentPage: 1,
+  inputSearch: '',
+  updateMovies: () => {},
+}

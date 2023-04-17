@@ -120,3 +120,7 @@ export default class MovieCard extends Component {
 }
 
 MovieCard.contextType = TabContext
+
+// MovieCard.propTypes = {
+//   movie:
+// }
