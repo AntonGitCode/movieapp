@@ -15,7 +15,7 @@ export class GuestSessionProvider extends React.Component {
   async getResource(url) {
     const res = await fetch(url)
     if (!res.ok) {
-      throw new Error(`Couldnt get SESSION while fetching ${url}, recieved ${res.status}`)
+      throw new Error(`Couldnt get SESSION while fetching: ${url}, recieved ${res.status}`)
     }
     return await res.json()
   }
