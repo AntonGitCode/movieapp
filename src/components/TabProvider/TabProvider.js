@@ -19,6 +19,7 @@ class TabProvider extends Component {
       this.setState({ currentPage: 1 })
     if (prevProps.guestSessionId !== this.props.guestSessionId)
       this.setState({ guestSessionId: this.props.guestSessionId })
+    console.log(this.props.genres)
     if (prevProps.genres === null && this.props.genres) this.setState({ genres: this.props.genres })
   }
 
@@ -75,7 +76,13 @@ class TabProvider extends Component {
 }
 
 TabProvider.propTypes = {
-  guestSessionId: PropTypes.string,
+  guestSessionId: PropTypes.string.isRequired,
+  genres: PropTypes.objectOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }
 
 export default TabProvider
