@@ -29,7 +29,7 @@ export class GuestSessionProvider extends React.Component {
 
   async getSession() {
     const session = await this.getResource(
-      `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=aa0ebd979d0247d439d1914491e74f506`
+      `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=a0ebd979d0247d439d1914491e74f506`
     ).catch(this.onError)
     if (session) {
       if (session.success) {
