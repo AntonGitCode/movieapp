@@ -45,7 +45,7 @@ class TabProvider extends Component {
     else this.setState({ inputSearch: '' })
   }
 
-  setMovies = (newMovies, newRatedMovies, genres = this.state.genres) => {
+  setMovies = (newMovies, newRatedMovies, genres = this.props.genres) => {
     this.setState({ movies: newMovies, ratedMovies: newRatedMovies, genres: genres })
   }
 
