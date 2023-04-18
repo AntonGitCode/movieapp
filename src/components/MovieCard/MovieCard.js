@@ -85,7 +85,7 @@ export default class MovieCard extends Component {
 
     const { title, overview, release_date, poster_path, vote_average, genre_ids } = movie
     const posterUrl = 'https://image.tmdb.org/t/p/w185/' + poster_path
-    const releaseDate = format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB })
+    const releaseDate = release_date ? format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB }) : null
     let descriptionLines = ''
     let circleColorRate = ''
     if (vote_average <= 3) circleColorRate = 'border-bad'
