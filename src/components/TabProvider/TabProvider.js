@@ -36,6 +36,13 @@ class TabProvider extends Component {
 
   debounceOnChange = debounce((value) => this.searchMovies(value), 400)
 
+  handleChange = (e) => {
+    const value = e.target.value
+    this.setState({ inputSearch: value }, () => {
+      this.debounceOnChange(this.state.inputSearch)
+    })
+  }
+
   searchMovies = (value) => {
     if (value.charAt(0) === ' ') {
       this.setState({ inputSearch: '' })
@@ -58,7 +65,7 @@ class TabProvider extends Component {
       activeTab,
       setActiveTab: this.setActiveTab,
       inputSearch,
-      debounceOnChange: this.debounceOnChange,
+      handleChange: this.handleChange,
       currentPage,
       onChangePage: this.onChangePage,
       movies,

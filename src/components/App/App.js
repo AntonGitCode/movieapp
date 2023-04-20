@@ -1,7 +1,7 @@
 import './App.css'
 import React, { Component } from 'react'
 import 'antd/dist/reset.css'
-import apiMovies from '../ApiMovies/ApiMovies'
+import ApiMovies from '../ApiMovies/ApiMovies'
 import Content from '../Content/Content'
 import { Spin } from 'antd'
 import ErrorIndicator from '../error-indicator'
@@ -14,7 +14,7 @@ export default class App extends Component {
     error: false,
   }
 
-  apiMovies = new apiMovies()
+  apiMovies = new ApiMovies()
 
   componentDidMount() {
     this.updateMovies()

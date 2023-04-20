@@ -1,4 +1,4 @@
-export default class apiMovies {
+export default class ApiMovies {
   async getResource(url, headers) {
     const res = await fetch(url, { headers })
     if (!res.ok) {

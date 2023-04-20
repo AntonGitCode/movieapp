@@ -14,7 +14,7 @@ export default class Content extends Component {
 
   render() {
     const { inputSearch, currentPage, totalItems } = this.props
-    const { debounceOnChange, onChangePage, movies, activeTab, ratedMovies, currentPageRated, onChangePageRated } =
+    const { handleChange, onChangePage, movies, activeTab, ratedMovies, currentPageRated, onChangePageRated } =
       this.context
 
     let moviesArr = [...movies]
@@ -28,7 +28,7 @@ export default class Content extends Component {
               type="text"
               className="search"
               placeholder="Type to search..."
-              onChange={(e) => debounceOnChange(e.target.value)}
+              onChange={handleChange}
               value={inputSearch}
               autoFocus
             />
