@@ -31,20 +31,18 @@ export class GuestSessionProvider extends React.Component {
     const session = await this.getResource(
       `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=a0ebd979d0247d439d1914491e74f506`
     ).catch(this.onError)
-    if (session) {
-      if (session.success) {
-        if (this.state.genres === null) {
-          const genres = await this.getResource(
-            'https://api.themoviedb.org/3/genre/movie/list?api_key=a0ebd979d0247d439d1914491e74f506&language=en-US'
-          ).catch(this.onError)
-          if (genres) this.setState({ genres: genres.genres })
-          else this.onError()
-        }
-        this.setState({
-          guestSessionId: session.guest_session_id,
-          loading: false,
-        })
-      } else this.onError()
+    if (session && session.success) {
+      if (this.state.genres === null) {
+        const genres = await this.getResource(
+          'https://api.themoviedb.org/3/genre/movie/list?api_key=a0ebd979d0247d439d1914491e74f506&language=en-US'
+        ).catch(this.onError)
+        if (genres) this.setState({ genres: genres.genres })
+        else this.onError()
+      }
+      this.setState({
+        guestSessionId: session.guest_session_id,
+        loading: false,
+      })
     } else this.onError()
   }
 
