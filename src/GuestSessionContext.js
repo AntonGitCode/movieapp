@@ -1,8 +1,8 @@
 import React from 'react'
 import ErrorIndicator from './components/error-indicator'
 import { Spin } from 'antd'
-
-const BASE_URL = 'https://api.themoviedb.org/3'
+import GetSession from './api/GetSession'
+import GetGenres from './api/GetGenres'
 
 export const GuestSessionContext = React.createContext()
 
@@ -16,13 +16,8 @@ export class GuestSessionProvider extends React.Component {
     loading: true,
   }
 
-  async getResource(url) {
-    const res = await fetch(url)
-    if (!res.ok) {
-      throw new Error(`Couldnt get SESSION while fetching: ${url}, recieved ${res.status}`)
-    }
-    return await res.json()
-  }
+  sessionId = new GetSession()
+  genresArray = new GetGenres()
 
   onError = (err) => {
     this.setState({
@@ -31,35 +26,17 @@ export class GuestSessionProvider extends React.Component {
     })
   }
 
-  async getSession() {
-    try {
-      const sessionUrl = new URL(`${BASE_URL}/authentication/guest_session/new`)
-      sessionUrl.searchParams.set('api_key', 'a0ebd979d0247d439d1914491e74f506')
-      const session = await this.getResource(sessionUrl.toString())
-      if (!session || !session.success) throw new Error('Failed to get session')
-
-      this.setState({ guestSessionId: session.guest_session_id })
-    } catch (error) {
-      this.onError(error)
-    }
-  }
-
-  async getGenres() {
-    try {
-      const genreUrl = new URL(`${BASE_URL}${this._genreUrl}`)
-      genreUrl.searchParams.set('api_key', 'a0ebd979d0247d439d1914491e74f506')
-      genreUrl.searchParams.set('language', 'en-US')
-      const genres = await this.getResource(genreUrl.toString())
-      if (!genres) throw new Error('Failed to get genres')
-      this.setState({ genres: genres.genres, loading: false })
-    } catch (error) {
-      this.onError(error)
-    }
-  }
-
   async componentDidMount() {
-    await this.getSession()
-    await this.getGenres()
+    await this.sessionId
+      .getSession()
+      .then(({ guest_session_id }) => {
+        this.setState({ guestSessionId: guest_session_id })
+      })
+      .catch(this.onError)
+    await this.genresArray
+      .getGenres()
+      .then(({ genres }) => this.setState({ genres: genres.genres, loading: false }))
+      .catch(this.onError)
   }
 
   render() {
