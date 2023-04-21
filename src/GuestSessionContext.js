@@ -29,17 +29,20 @@ export class GuestSessionProvider extends React.Component {
 
   async getSession() {
     try {
-      const session = await this.getResource(
-        'https://api.themoviedb.org/3/authentication/guest_session/new?api_key=a0ebd979d0247d439d1914491e74f506'
-      )
+      const sessionUrl = new URL('https://api.themoviedb.org/3/authentication/guest_session/new')
+      sessionUrl.searchParams.set('api_key', 'a0ebd979d0247d439d1914491e74f506')
+      const session = await this.getResource(sessionUrl.toString())
       if (!session || !session.success) throw new Error('Failed to get session')
+
       if (!this.state.genres) {
-        const genres = await this.getResource(
-          'https://api.themoviedb.org/3/genre/movie/list?api_key=a0ebd979d0247d439d1914491e74f506&language=en-US'
-        )
+        const genreUrl = new URL('https://api.themoviedb.org/3/genre/movie/list')
+        genreUrl.searchParams.set('api_key', 'a0ebd979d0247d439d1914491e74f506')
+        genreUrl.searchParams.set('language', 'en-US')
+        const genres = await this.getResource(genreUrl.toString())
         if (!genres) throw new Error('Failed to get genres')
         this.setState({ genres: genres.genres })
       }
+
       this.setState({
         guestSessionId: session.guest_session_id,
         loading: false,
