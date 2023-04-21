@@ -6,6 +6,7 @@ import { enGB } from 'date-fns/locale'
 import { Rate, Tag } from 'antd'
 import { TabContext } from '../TabContext/TabContext'
 import PropTypes from 'prop-types'
+import errorPoster from './images/no-poster-found.png'
 
 export default class MovieCard extends Component {
   onChangeStar = (number) => {
@@ -84,7 +85,7 @@ export default class MovieCard extends Component {
     const genresArr = this.getGenres()
 
     const { title, overview, release_date, poster_path, vote_average, genre_ids } = movie
-    const posterUrl = 'https://image.tmdb.org/t/p/w185/' + poster_path
+    const posterUrl = poster_path ? 'https://image.tmdb.org/t/p/w185/' + poster_path : errorPoster
     const releaseDate = release_date ? format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB }) : null
     let descriptionLines = ''
     let circleColorRate = ''

@@ -35,7 +35,7 @@ export class GuestSessionProvider extends React.Component {
       .catch(this.onError)
     await this.genresArray
       .getGenres()
-      .then(({ genres }) => this.setState({ genres: genres.genres, loading: false }))
+      .then(({ genres }) => this.setState({ genres, loading: false }))
       .catch(this.onError)
   }
 

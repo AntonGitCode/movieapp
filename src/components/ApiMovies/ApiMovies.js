@@ -27,7 +27,7 @@ export default class ApiMovies {
     })
 
     let { results, total_results } = res
-    let returnArr = results.filter((item) => item.poster_path)
+    let returnArr = results //.filter((item) => item.poster_path)
     returnArr.forEach((item) => {
       item['rated'] = 0
       return item
