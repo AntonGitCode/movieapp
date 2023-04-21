@@ -22,11 +22,14 @@ class TabProvider extends Component {
     if (prevProps.genres === null && this.props.genres) this.setState({ genres: this.props.genres })
   }
 
-  componentWillUnmount() {
-    localStorage.setItem('ratedMovies', JSON.stringify(this.state.ratedMovies))
-  }
-
   componentDidMount() {
+    if (!this.state.ratedMovies || this.state.ratedMovies.length === 0) {
+      const ratedMovies = JSON.parse(localStorage.getItem('ratedMovies'))
+      if (ratedMovies) {
+        this.setState({ ratedMovies })
+      }
+    }
+
     const ratedMovies = JSON.parse(localStorage.getItem('ratedMovies'))
     if (ratedMovies) {
       this.setState({ ratedMovies })
@@ -64,7 +67,9 @@ class TabProvider extends Component {
   }
 
   setMovies = (newMovies, newRatedMovies, genres = this.props.genres) => {
-    this.setState({ movies: newMovies, ratedMovies: newRatedMovies, genres: genres })
+    this.setState({ movies: newMovies, ratedMovies: newRatedMovies, genres: genres }, () => {
+      localStorage.setItem('ratedMovies', JSON.stringify(this.state.ratedMovies))
+    })
   }
 
   render() {
