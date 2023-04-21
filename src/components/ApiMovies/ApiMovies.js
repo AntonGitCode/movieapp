@@ -1,4 +1,7 @@
+const BASE_URL = 'https://api.themoviedb.org/3'
+
 export default class ApiMovies {
+  _searchUrl = '/search/movie'
   _baseUrl = 'https://api.themoviedb.org/3/search/movie'
   _apiKey = 'a0ebd979d0247d439d1914491e74f506'
   _language = 'en-US'
@@ -12,7 +15,7 @@ export default class ApiMovies {
   }
 
   async getAllMovies(queryString = '', currentPage = 1, headers) {
-    const url = new URL(this._baseUrl)
+    const url = new URL(`${BASE_URL}${this._searchUrl}`)
     url.searchParams.set('api_key', this._apiKey)
     url.searchParams.set('language', this._language)
     url.searchParams.set('query', queryString)
