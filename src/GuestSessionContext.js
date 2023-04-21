@@ -38,26 +38,28 @@ export class GuestSessionProvider extends React.Component {
       const session = await this.getResource(sessionUrl.toString())
       if (!session || !session.success) throw new Error('Failed to get session')
 
-      if (!this.state.genres) {
-        const genreUrl = new URL(`${BASE_URL}${this._genreUrl}`)
-        genreUrl.searchParams.set('api_key', 'a0ebd979d0247d439d1914491e74f506')
-        genreUrl.searchParams.set('language', 'en-US')
-        const genres = await this.getResource(genreUrl.toString())
-        if (!genres) throw new Error('Failed to get genres')
-        this.setState({ genres: genres.genres })
-      }
-
-      this.setState({
-        guestSessionId: session.guest_session_id,
-        loading: false,
-      })
+      this.setState({ guestSessionId: session.guest_session_id })
     } catch (error) {
       this.onError(error)
     }
   }
 
-  componentDidMount() {
-    this.getSession()
+  async getGenres() {
+    try {
+      const genreUrl = new URL(`${BASE_URL}${this._genreUrl}`)
+      genreUrl.searchParams.set('api_key', 'a0ebd979d0247d439d1914491e74f506')
+      genreUrl.searchParams.set('language', 'en-US')
+      const genres = await this.getResource(genreUrl.toString())
+      if (!genres) throw new Error('Failed to get genres')
+      this.setState({ genres: genres.genres, loading: false })
+    } catch (error) {
+      this.onError(error)
+    }
+  }
+
+  async componentDidMount() {
+    await this.getSession()
+    await this.getGenres()
   }
 
   render() {
