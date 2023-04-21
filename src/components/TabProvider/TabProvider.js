@@ -22,6 +22,17 @@ class TabProvider extends Component {
     if (prevProps.genres === null && this.props.genres) this.setState({ genres: this.props.genres })
   }
 
+  componentWillUnmount() {
+    localStorage.setItem('ratedMovies', JSON.stringify(this.state.ratedMovies))
+  }
+
+  componentDidMount() {
+    const ratedMovies = JSON.parse(localStorage.getItem('ratedMovies'))
+    if (ratedMovies) {
+      this.setState({ ratedMovies })
+    }
+  }
+
   setActiveTab = (index) => {
     this.setState({ activeTab: index })
   }
