@@ -2,9 +2,13 @@ import React from 'react'
 import ErrorIndicator from './components/error-indicator'
 import { Spin } from 'antd'
 
+const BASE_URL = 'https://api.themoviedb.org/3'
+
 export const GuestSessionContext = React.createContext()
 
 export class GuestSessionProvider extends React.Component {
+  _genreUrl = '/genre/movie/list'
+
   state = {
     guestSessionId: null,
     genres: null,
@@ -29,13 +33,13 @@ export class GuestSessionProvider extends React.Component {
 
   async getSession() {
     try {
-      const sessionUrl = new URL('https://api.themoviedb.org/3/authentication/guest_session/new')
+      const sessionUrl = new URL(`${BASE_URL}/authentication/guest_session/new`)
       sessionUrl.searchParams.set('api_key', 'a0ebd979d0247d439d1914491e74f506')
       const session = await this.getResource(sessionUrl.toString())
       if (!session || !session.success) throw new Error('Failed to get session')
 
       if (!this.state.genres) {
-        const genreUrl = new URL('https://api.themoviedb.org/3/genre/movie/list')
+        const genreUrl = new URL(`${BASE_URL}${this._genreUrl}`)
         genreUrl.searchParams.set('api_key', 'a0ebd979d0247d439d1914491e74f506')
         genreUrl.searchParams.set('language', 'en-US')
         const genres = await this.getResource(genreUrl.toString())
