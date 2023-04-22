@@ -10,47 +10,51 @@ import errorPoster from './images/no-poster-found.png'
 
 export default class MovieCard extends Component {
   onChangeStar = (number) => {
-    const { movies, ratedMovies, setMovies, genres } = this.context
+    const { movies, setMovies, genres } = this.context
     const { movie } = this.props
-    const newMovies = [...movies]
-    let currentMovieId
 
-    newMovies.forEach((item) => {
-      if (item.id === movie.id) {
-        item['rated'] = number
-        currentMovieId = item.id
-      }
-      return item
-    })
+    const newMovies = [...movies]
+    let currentMovieId = movie.id
+
+    if (newMovies.length) {
+      newMovies.forEach((item) => {
+        if (item.id === movie.id) item['rated'] = number
+        return item
+      })
+    }
 
     let newRatedMovie = []
-    let newRatedMovies = []
+    let ratedMovies = JSON.parse(localStorage.getItem('ratedMovies'))
 
     if (number === 0) {
       if (ratedMovies.length > 0) {
-        newRatedMovies = [...ratedMovies]
-        let indx = newRatedMovies.findIndex((obj) => obj.id === currentMovieId)
-        newRatedMovies = [...ratedMovies.slice(0, indx), ...ratedMovies.slice(indx + 1)]
-        setMovies(newMovies, newRatedMovies, genres)
+        let indx = ratedMovies.findIndex((obj) => obj.id === currentMovieId)
+        ratedMovies = [...ratedMovies.slice(0, indx), ...ratedMovies.slice(indx + 1)]
+        localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))
+        setMovies(newMovies, genres)
+      } else {
+        localStorage.setItem('ratedMovies', JSON.stringify([]))
+        setMovies(newMovies, genres)
       }
     } else {
       newRatedMovie[0] = movie
       newRatedMovie[0]['rated'] = number
 
-      if (ratedMovies.length > 0) {
-        let newRatedMovies = [...ratedMovies]
-        let indx = newRatedMovies.findIndex((obj) => obj.id === movie.id)
-
+      if (ratedMovies) {
+        let indx = ratedMovies.findIndex((obj) => obj.id === movie.id)
         if (indx >= 0) {
-          newRatedMovies[indx]['rated'] = number
-          setMovies(newMovies, newRatedMovies, genres)
+          ratedMovies[indx]['rated'] = number
+          localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))
+          setMovies(newMovies, genres)
         } else {
-          newRatedMovies = [...newRatedMovies, ...newRatedMovie]
-          setMovies(newMovies, newRatedMovies, genres)
+          ratedMovies = [...ratedMovies, ...newRatedMovie]
+          localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))
+          setMovies(newMovies, genres)
         }
       } else {
-        newRatedMovies[0] = newRatedMovie[0]
-        setMovies(newMovies, newRatedMovies, genres)
+        ratedMovies[0] = newRatedMovie[0]
+        localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))
+        setMovies(newMovies, genres)
       }
     }
   }
@@ -80,6 +84,7 @@ export default class MovieCard extends Component {
         return item
       })
     }
+
     if (activeTab === 1) ratedStars = movie['rated']
 
     const genresArr = this.getGenres()

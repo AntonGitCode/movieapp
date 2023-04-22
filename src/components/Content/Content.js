@@ -12,13 +12,17 @@ export default class Content extends Component {
     }
   }
 
+  componentDidMount() {
+    console.log('--- Content.js -- DID MOUNT ---')
+    console.log('--- Content.js -- DID MOUNT ---')
+  }
+
   render() {
     const { inputSearch, currentPage, totalItems } = this.props
-    const { handleChange, onChangePage, movies, activeTab, ratedMovies, currentPageRated, onChangePageRated } =
-      this.context
+    const { handleChange, onChangePage, movies, activeTab, currentPageRated, onChangePageRated } = this.context
 
     let moviesArr = [...movies]
-    let ratedMoviesArr = [...ratedMovies]
+    let ratedMoviesArr = JSON.parse(localStorage.getItem('ratedMovies'))
 
     return (
       <>
@@ -37,7 +41,8 @@ export default class Content extends Component {
           {activeTab === 0 && !movies.length && inputSearch && (
             <Alert className="info-message" type="info" message="Oops" description="Can't find any movie" banner />
           )}
-          {activeTab === 1 && !ratedMovies.length && (
+
+          {activeTab === 1 && (!ratedMoviesArr || (Array.isArray(ratedMoviesArr) && ratedMoviesArr.length === 0)) && (
             <Alert
               className="info-message"
               type="info"
@@ -56,7 +61,7 @@ export default class Content extends Component {
             </div>
           )}
 
-          {activeTab === 1 && (
+          {activeTab === 1 && ratedMoviesArr && (
             <div className="container">
               {ratedMoviesArr.map((movie) => {
                 const { id } = movie
@@ -74,13 +79,14 @@ export default class Content extends Component {
               total={totalItems}
             />
           )}
-          {activeTab === 1 && ratedMovies.length > 0 && (
+
+          {activeTab === 1 && ratedMoviesArr && ratedMoviesArr.length > 0 && (
             <Pagination
               defaultCurrent={1}
               className="pagination"
               currentPageRated={currentPageRated}
               onChangePageRated={(page) => onChangePageRated(page)}
-              total={ratedMovies.length}
+              total={ratedMoviesArr.length}
             />
           )}
         </div>

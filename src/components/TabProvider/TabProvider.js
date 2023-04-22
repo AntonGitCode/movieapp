@@ -9,7 +9,7 @@ class TabProvider extends Component {
     inputSearch: '',
     currentPage: 1,
     movies: [],
-    ratedMovies: [],
+    // ratedMovies: [],
     guestSessionId: null,
     genres: null,
   }
@@ -23,17 +23,7 @@ class TabProvider extends Component {
   }
 
   componentDidMount() {
-    if (!this.state.ratedMovies || this.state.ratedMovies.length === 0) {
-      const ratedMovies = JSON.parse(localStorage.getItem('ratedMovies'))
-      if (ratedMovies) {
-        this.setState({ ratedMovies })
-      }
-    }
-
-    const ratedMovies = JSON.parse(localStorage.getItem('ratedMovies'))
-    if (ratedMovies) {
-      this.setState({ ratedMovies })
-    }
+    console.log('****** did MOUNT TabProvider****', localStorage)
   }
 
   setActiveTab = (index) => {
@@ -66,15 +56,13 @@ class TabProvider extends Component {
     else this.setState({ inputSearch: '' })
   }
 
-  setMovies = (newMovies, newRatedMovies, genres = this.props.genres) => {
-    this.setState({ movies: newMovies, ratedMovies: newRatedMovies, genres: genres }, () => {
-      localStorage.setItem('ratedMovies', JSON.stringify(this.state.ratedMovies))
-    })
+  setMovies = (newMovies, genres = this.props.genres) => {
+    console.log('--- TabProvider - setMovies -- newMovies, genres', newMovies, genres)
+    this.setState({ movies: newMovies, genres: genres })
   }
 
   render() {
-    const { activeTab, inputSearch, currentPage, movies, ratedMovies, currentPageRated, guestSessionId, genres } =
-      this.state
+    const { activeTab, inputSearch, currentPage, movies, currentPageRated, guestSessionId, genres } = this.state
     const { children } = this.props
 
     const contextValue = {
@@ -86,7 +74,6 @@ class TabProvider extends Component {
       onChangePage: this.onChangePage,
       movies,
       setMovies: this.setMovies,
-      ratedMovies,
       currentPageRated,
       onChangePageRated: this.onChangePageRated,
       guestSessionId,

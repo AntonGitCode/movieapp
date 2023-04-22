@@ -28,19 +28,23 @@ export default class TabContent extends Component {
   }
 
   updateMovies = () => {
-    const { inputSearch, currentPage, setMovies, ratedMovies, guestSessionId } = this.context
-
+    const { inputSearch, currentPage, setMovies, guestSessionId } = this.context
     const headers = { Authorization: `Bearer ${guestSessionId}` }
+    const ratedMoviesLS = JSON.parse(localStorage.getItem('ratedMovies'))
+
     this.apiMovies
       .getAllMovies(inputSearch, currentPage, headers)
-      .then(({ returnArr, totalItems, genres }) => {
-        returnArr.forEach((item) => {
-          const matchingItem = ratedMovies.find((element) => element.id === item.id)
-          if (matchingItem) {
-            item['rated'] = matchingItem.rated
+      .then(({ returnArr, totalItems }) => {
+        if (ratedMoviesLS) {
+          if (ratedMoviesLS.length > 0 && returnArr.length > 0) {
+            returnArr.forEach((item) => {
+              const matchingItem = ratedMoviesLS.find((element) => element.id === item.id)
+              if (matchingItem) item['rated'] = matchingItem.rated
+            })
           }
-        })
-        setMovies(returnArr, ratedMovies, genres)
+        }
+
+        setMovies(returnArr)
         this.setState({ totalItems: totalItems, loading: false, error: false })
       })
       .catch(this.onError)

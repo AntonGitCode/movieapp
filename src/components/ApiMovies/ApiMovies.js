@@ -28,11 +28,11 @@ export default class ApiMovies {
 
     let { results, total_results } = res
     let returnArr = results
+
     returnArr.forEach((item) => {
       item['rated'] = 0
       return item
     })
-
     return { returnArr: returnArr, totalItems: total_results }
   }
 }
