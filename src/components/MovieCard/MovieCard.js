@@ -13,9 +13,13 @@ const MovieCard = ({ movie }) => {
   const { movies, activeTab, setMovies } = useContext(TabContext)
   const { genres } = useContext(GuestSessionContext)
 
+  const updateRatedMovies = (ratedMovies) => {
+    localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))
+    setMovies([...movies])
+  }
+
   const onChangeStar = (number) => {
     const newMovies = [...movies]
-    let currentMovieId = movie.id
 
     if (newMovies.length) {
       newMovies.forEach((item) => {
@@ -25,10 +29,10 @@ const MovieCard = ({ movie }) => {
     }
 
     let ratedMovies = JSON.parse(localStorage.getItem('ratedMovies'))
+
     if (number === 0) {
-      ratedMovies = ratedMovies.filter((obj) => obj.id !== currentMovieId)
-      localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))
-      setMovies(newMovies)
+      const ratedMovies = JSON.parse(localStorage.getItem('ratedMovies')).filter((obj) => obj.id !== movie.id)
+      updateRatedMovies(ratedMovies)
     } else {
       const ratedMovie = { ...movie, rated: number }
       const indx = ratedMovies.findIndex((obj) => obj.id === movie.id)
@@ -39,8 +43,7 @@ const MovieCard = ({ movie }) => {
         ratedMovies.push(ratedMovie)
       }
 
-      localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))
-      setMovies(newMovies)
+      updateRatedMovies(ratedMovies)
     }
   }
 
@@ -66,22 +69,33 @@ const MovieCard = ({ movie }) => {
   if (activeTab === 1) ratedStars = movie['rated']
 
   const genresArr = getGenres()
-
   const { title, overview, release_date, poster_path, vote_average, genre_ids } = movie
   const posterUrl = poster_path ? 'https://image.tmdb.org/t/p/w185/' + poster_path : errorPoster
   const releaseDate = release_date ? format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB }) : null
-  let descriptionLines = ''
-  let circleColorRate = ''
-  if (vote_average <= 3) circleColorRate = 'border-bad'
-  if (vote_average > 3 && vote_average <= 5) circleColorRate = 'border-good'
-  if (vote_average > 5 && vote_average <= 7) circleColorRate = 'border-best'
-  if (vote_average > 7) circleColorRate = 'border-genius'
-  if (title.length > 19) descriptionLines = 'clamp--four'
-  if (title.length > 35) descriptionLines = 'clamp--three'
-  if (title.length > 50) descriptionLines = 'clamp--two'
-  if (title.length > 19 && genre_ids.length > 3) descriptionLines = 'clamp--three'
-  if (title.length > 35 && genre_ids.length > 3) descriptionLines = 'clamp--two'
-  if (title.length > 50 && genre_ids.length > 3) descriptionLines = 'clamp--one'
+
+  const descriptionLines =
+    title.length > 50 && genre_ids.length > 3
+      ? 'clamp--one'
+      : title.length > 35 && genre_ids.length > 3
+      ? 'clamp--two'
+      : title.length > 19 && genre_ids.length > 3
+      ? 'clamp--three'
+      : title.length > 50
+      ? 'clamp--two'
+      : title.length > 35
+      ? 'clamp--three'
+      : title.length > 19
+      ? 'clamp--four'
+      : ''
+
+  const circleColorRate =
+    vote_average <= 3
+      ? 'border-bad'
+      : vote_average <= 5
+      ? 'border-good'
+      : vote_average <= 7
+      ? 'border-best'
+      : 'border-genius'
 
   return (
     <>
