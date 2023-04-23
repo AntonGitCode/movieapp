@@ -18,6 +18,8 @@ export default class Content extends Component {
 
     let moviesArr = [...movies]
     let ratedMoviesArr = JSON.parse(localStorage.getItem('ratedMovies'))
+    const isEmptyMovies = activeTab === 0 && !movies.length && inputSearch
+    const isEmptyRatedMovies = activeTab === 1 && (!ratedMoviesArr || !ratedMoviesArr.length)
 
     return (
       <>
@@ -33,7 +35,7 @@ export default class Content extends Component {
             />
           )}
 
-          {activeTab === 0 && !movies.length && inputSearch && (
+          {isEmptyMovies && (
             <Alert className="info-message" type="info" message="Oops" description="Can't find any movie" banner />
           )}
 
@@ -75,7 +77,7 @@ export default class Content extends Component {
             />
           )}
 
-          {activeTab === 1 && ratedMoviesArr && ratedMoviesArr.length > 0 && (
+          {isEmptyRatedMovies && (
             <Pagination
               defaultCurrent={1}
               className="pagination"
