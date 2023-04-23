@@ -40,18 +40,16 @@ export class GuestSessionProvider extends React.Component {
   }
 
   render() {
-    const { loading, error } = this.state
-    const hasData = !(loading || error)
-    const errorMessage = error ? <ErrorIndicator error={error} /> : null
-    const spinner = loading ? <Spin className="spinner" size="large" /> : null
-
+    const { loading, error, guestSessionId, genres } = this.state
     return (
       <>
-        {errorMessage}
-        {spinner}
-        {hasData ? (
-          <GuestSessionContext.Provider value={this.state}>{this.props.children}</GuestSessionContext.Provider>
-        ) : null}
+        {error && <ErrorIndicator error={error} />}
+        {loading && <Spin className="spinner" size="large" />}
+        {!loading && !error && (
+          <GuestSessionContext.Provider value={{ guestSessionId, genres }}>
+            {this.props.children}
+          </GuestSessionContext.Provider>
+        )}
       </>
     )
   }

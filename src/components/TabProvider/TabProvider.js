@@ -10,7 +10,6 @@ class TabProvider extends Component {
     currentPage: 1,
     movies: [],
     guestSessionId: null,
-    // genres: null,
   }
 
   componentDidUpdate(prevProps, prevState) {
