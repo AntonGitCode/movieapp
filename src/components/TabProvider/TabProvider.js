@@ -9,7 +9,6 @@ class TabProvider extends Component {
     inputSearch: '',
     currentPage: 1,
     movies: [],
-    // ratedMovies: [],
     guestSessionId: null,
     genres: null,
   }
@@ -20,10 +19,6 @@ class TabProvider extends Component {
     if (prevProps.guestSessionId !== this.props.guestSessionId)
       this.setState({ guestSessionId: this.props.guestSessionId })
     if (prevProps.genres === null && this.props.genres) this.setState({ genres: this.props.genres })
-  }
-
-  componentDidMount() {
-    console.log('****** did MOUNT TabProvider****', localStorage)
   }
 
   setActiveTab = (index) => {
@@ -57,7 +52,6 @@ class TabProvider extends Component {
   }
 
   setMovies = (newMovies, genres = this.props.genres) => {
-    console.log('--- TabProvider - setMovies -- newMovies, genres', newMovies, genres)
     this.setState({ movies: newMovies, genres: genres })
   }
 

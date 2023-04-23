@@ -78,12 +78,14 @@ export default class MovieCard extends Component {
     const { movie } = this.props
     const { movies, activeTab } = this.context
     let ratedStars = 0
+    ////////////////////////////
     if (activeTab === 0) {
       movies.forEach((item) => {
         if (item.id === movie.id) ratedStars = item['rated']
         return item
       })
     }
+    ////////////////////////////////////////////////////////
 
     if (activeTab === 1) ratedStars = movie['rated']
 

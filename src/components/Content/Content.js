@@ -12,11 +12,6 @@ export default class Content extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log('--- Content.js -- DID MOUNT ---')
-    console.log('--- Content.js -- DID MOUNT ---')
-  }
-
   render() {
     const { inputSearch, currentPage, totalItems } = this.props
     const { handleChange, onChangePage, movies, activeTab, currentPageRated, onChangePageRated } = this.context
