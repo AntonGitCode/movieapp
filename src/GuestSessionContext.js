@@ -30,14 +30,12 @@ export class GuestSessionProvider extends React.Component {
     await this.sessionId
       .getSession()
       .then(({ guest_session_id }) => {
-        console.log('get guest Id', guest_session_id)
         this.setState({ guestSessionId: guest_session_id })
       })
       .catch(this.onError)
     await this.genresArray
       .getGenres()
       .then(({ genres }) => {
-        console.log(genres)
         this.setState({ genres, loading: false })
       })
       .catch(this.onError)
