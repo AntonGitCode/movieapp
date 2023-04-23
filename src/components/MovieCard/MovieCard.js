@@ -47,17 +47,6 @@ const MovieCard = ({ movie }) => {
     }
   }
 
-  const getGenres = () => {
-    const { genre_ids } = movie
-    if (movie && genre_ids && genres) {
-      const genres_array = genre_ids.map((id) => {
-        const genre = genres.find((obj) => obj.id === id)
-        return genre ? genre.name : null
-      })
-      return genres_array
-    } else return null
-  }
-
   let ratedStars = 0
   if (activeTab === 0) {
     movies.forEach((item) => {
@@ -68,7 +57,6 @@ const MovieCard = ({ movie }) => {
 
   if (activeTab === 1) ratedStars = movie['rated']
 
-  const genresArr = getGenres()
   const { title, overview, release_date, poster_path, vote_average, genre_ids } = movie
   const posterUrl = poster_path ? 'https://image.tmdb.org/t/p/w185/' + poster_path : errorPoster
   const releaseDate = release_date ? format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB }) : null
@@ -105,11 +93,17 @@ const MovieCard = ({ movie }) => {
           <div className="card-info">
             <div className={`circle ${circleColorRate}`}>{vote_average.toFixed(1)}</div>
             <div className="card-title">{title}</div>
-            {genresArr && (
+
+            {genres && genres.length > 0 && (
               <div className="genres">
-                {genresArr.map((genreItem, index) => {
-                  return <Tag key={index}>{genreItem}</Tag>
-                })}
+                {genre_ids
+                  .map((id) => genres.find((obj) => obj.id === id)?.name)
+                  .filter((name) => name)
+                  .map((genreItem, index) => (
+                    <Tag key={index} className="genre">
+                      {genreItem}
+                    </Tag>
+                  ))}
               </div>
             )}
             <div className="card-date">{releaseDate}</div>
