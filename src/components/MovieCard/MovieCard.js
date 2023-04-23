@@ -12,6 +12,8 @@ import errorPoster from './images/no-poster-found.png'
 const MovieCard = ({ movie }) => {
   const { movies, activeTab, setMovies } = useContext(TabContext)
   const { genres } = useContext(GuestSessionContext)
+  console.log(movies)
+  console.log(genres)
 
   const updateRatedMovies = (ratedMovies) => {
     localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))

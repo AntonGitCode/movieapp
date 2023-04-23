@@ -1,38 +1,34 @@
 import './TabContent.css'
-import React, { Component } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import 'antd/dist/reset.css'
-import ApiMovies from '../ApiMovies/ApiMovies'
+import ApiMovies from '../../api/ApiMovies/ApiMovies'
 import Content from '../Content/Content'
 import { Spin } from 'antd'
 import ErrorIndicator from '../error-indicator'
 import { TabContext } from '../TabContext/TabContext'
+import { GuestSessionContext } from '../../GuestSessionContext'
 
-export default class TabContent extends Component {
-  state = {
+const TabContent = () => {
+  const { inputSearch, currentPage, setMovies } = useContext(TabContext)
+  const { guestSessionId } = useContext(GuestSessionContext)
+
+  const [state, setState] = useState({
     totalItems: null,
     loading: true,
     error: false,
+  })
+
+  const apiMovies = new ApiMovies()
+
+  const onError = (err) => {
+    setState({ error: true, loading: false })
   }
 
-  apiMovies = new ApiMovies()
-
-  componentDidMount() {
-    this.updateMovies()
-  }
-
-  onError = (err) => {
-    this.setState({
-      error: true,
-      loading: false,
-    })
-  }
-
-  updateMovies = () => {
-    const { inputSearch, currentPage, setMovies, guestSessionId } = this.context
+  const updateMovies = () => {
     const headers = { Authorization: `Bearer ${guestSessionId}` }
     const ratedMoviesLS = JSON.parse(localStorage.getItem('ratedMovies'))
 
-    this.apiMovies
+    apiMovies
       .getAllMovies(inputSearch, currentPage, headers)
       .then(({ returnArr, totalItems }) => {
         if (ratedMoviesLS) {
@@ -43,39 +39,36 @@ export default class TabContent extends Component {
             })
           }
         }
-
         setMovies(returnArr)
-        this.setState({ totalItems: totalItems, loading: false, error: false })
+        setState({ totalItems: totalItems, loading: false, error: false })
       })
-      .catch(this.onError)
+      .catch(onError)
   }
 
-  render() {
-    let { inputSearch, currentPage } = this.context
-    const { loading, error, totalItems } = this.state
+  const { loading, error, totalItems } = state
 
-    const hasData = !(loading || error)
-    const errorMessage = error ? <ErrorIndicator error={error} /> : null
-    const spinner = loading ? <Spin className="spinner" size="large" /> : null
-    return (
-      <TabContext.Consumer>
-        {() => (
-          <div>
-            {errorMessage}
-            {spinner}
-            {hasData ? (
-              <Content
-                currentPage={currentPage}
-                inputSearch={inputSearch}
-                totalItems={totalItems}
-                updateMovies={this.updateMovies}
-              ></Content>
-            ) : null}
-          </div>
-        )}
-      </TabContext.Consumer>
-    )
-  }
+  useEffect(() => {
+    updateMovies()
+  }, [])
+
+  const hasData = !(loading || error)
+  const errorMessage = error ? <ErrorIndicator error={error} /> : null
+  const spinner = loading ? <Spin className="spinner" size="large" /> : null
+
+  return (
+    <div>
+      {errorMessage}
+      {spinner}
+      {hasData ? (
+        <Content
+          currentPage={currentPage}
+          inputSearch={inputSearch}
+          totalItems={totalItems}
+          updateMovies={updateMovies}
+        ></Content>
+      ) : null}
+    </div>
+  )
 }
 
-TabContent.contextType = TabContext
+export default TabContent

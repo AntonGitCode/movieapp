@@ -10,6 +10,7 @@ export default class App extends Component {
     const { guestSessionId } = this.context
     return (
       <TabProvider guestSessionId={guestSessionId}>
+        {/* <TabProvider> */}
         <Tabs>
           <Tab label="Search">
             <TabContent />

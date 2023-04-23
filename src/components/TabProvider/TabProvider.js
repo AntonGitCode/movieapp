@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { TabContext } from '../TabContext/TabContext'
 import { debounce } from 'lodash'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 class TabProvider extends Component {
   state = {
@@ -9,14 +9,14 @@ class TabProvider extends Component {
     inputSearch: '',
     currentPage: 1,
     movies: [],
-    guestSessionId: null,
+    // guestSessionId: null,
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.inputSearch !== this.state.inputSearch && this.state.currentPage > 1)
       this.setState({ currentPage: 1 })
-    if (prevProps.guestSessionId !== this.props.guestSessionId)
-      this.setState({ guestSessionId: this.props.guestSessionId })
+    // if (prevProps.guestSessionId !== this.props.guestSessionId)
+    //   this.setState({ guestSessionId: this.props.guestSessionId })
     if (prevProps.genres === null && this.props.genres) this.setState({ genres: this.props.genres })
   }
 
@@ -55,7 +55,9 @@ class TabProvider extends Component {
   }
 
   render() {
-    const { activeTab, inputSearch, currentPage, movies, currentPageRated, guestSessionId } = this.state
+    // const { activeTab, inputSearch, currentPage, movies, currentPageRated, guestSessionId } = this.state
+    const { activeTab, inputSearch, currentPage, movies, currentPageRated } = this.state
+
     const { children } = this.props
 
     const contextValue = {
@@ -69,15 +71,15 @@ class TabProvider extends Component {
       setMovies: this.setMovies,
       currentPageRated,
       onChangePageRated: this.onChangePageRated,
-      guestSessionId,
+      // guestSessionId,
     }
 
     return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>
   }
 }
 
-TabProvider.propTypes = {
-  guestSessionId: PropTypes.string.isRequired,
-}
+// TabProvider.propTypes = {
+// guestSessionId: PropTypes.string.isRequired,
+// }
 
 export default TabProvider
