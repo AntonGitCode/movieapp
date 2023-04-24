@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import 'antd/dist/reset.css'
 import './MovieCard.css'
 import { format } from 'date-fns'
@@ -69,6 +69,14 @@ const MovieCard = ({ movie }) => {
 
   const { title, overview, release_date, poster_path, vote_average, genre_ids } = movie
   const posterUrl = poster_path ? 'https://image.tmdb.org/t/p/w185/' + poster_path : errorPoster
+  const [imageUrl, setImageUrl] = useState(posterUrl)
+
+  const handlePosterError = () => {
+    setImageUrl(errorPoster)
+  }
+
+  const poster = <img className="card-poster" src={imageUrl} alt={title} onError={handlePosterError} />
+
   const releaseDate = release_date ? format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB }) : null
 
   const descriptionLines =
@@ -100,7 +108,8 @@ const MovieCard = ({ movie }) => {
       <>
         {(activeTab === 0 || (activeTab === 1 && movie['rated'] > 0)) && (
           <div className="card">
-            <img className="card-poster" src={posterUrl} alt={title} />
+            {poster}
+            {/* <img className="card-poster" src={posterUrl} alt={title} /> */}
             <div className="card-info">
               <div className={`circle ${circleColorRate}`}>{vote_average.toFixed(1)}</div>
               <div className="card-title">{title}</div>

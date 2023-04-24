@@ -11,6 +11,5 @@ export const TabContext = React.createContext({
   movies: [],
   setMovies: () => {},
   onChangePageRated: () => {},
-  guestSessionId: null,
   ratedMovies: [],
 })
