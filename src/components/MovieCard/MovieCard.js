@@ -8,6 +8,8 @@ import { TabContext } from '../TabContext/TabContext'
 import { GuestSessionContext } from '../../GuestSessionContext'
 import PropTypes from 'prop-types'
 import errorPoster from './images/no-poster-found.png'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorIndicator from '../error-indicator'
 
 const MovieCard = ({ movie }) => {
   const { movies, activeTab, setMovies, ratedMovies } = useContext(TabContext)
@@ -94,33 +96,35 @@ const MovieCard = ({ movie }) => {
       : 'border-genius'
 
   return (
-    <>
-      {(activeTab === 0 || (activeTab === 1 && movie['rated'] > 0)) && (
-        <div className="card">
-          <img className="card-poster" src={posterUrl} alt={title} />
-          <div className="card-info">
-            <div className={`circle ${circleColorRate}`}>{vote_average.toFixed(1)}</div>
-            <div className="card-title">{title}</div>
+    <ErrorBoundary fallbackRender={({ error }) => <ErrorIndicator error={error} />}>
+      <>
+        {(activeTab === 0 || (activeTab === 1 && movie['rated'] > 0)) && (
+          <div className="card">
+            <img className="card-poster" src={posterUrl} alt={title} />
+            <div className="card-info">
+              <div className={`circle ${circleColorRate}`}>{vote_average.toFixed(1)}</div>
+              <div className="card-title">{title}</div>
 
-            {genres && genres.length > 0 && (
-              <div className="genres">
-                {genre_ids
-                  .map((id) => genres.find((obj) => obj.id === id)?.name)
-                  .filter((name) => name)
-                  .map((genreItem, index) => (
-                    <Tag key={index} className="genre">
-                      {genreItem}
-                    </Tag>
-                  ))}
-              </div>
-            )}
-            <div className="card-date">{releaseDate}</div>
-            <div className={`card-description ${descriptionLines}`}>{overview}</div>
-            <Rate className="rate" count={10} value={ratedStars} onChange={onChangeStar} />
+              {genres && genres.length > 0 && (
+                <div className="genres">
+                  {genre_ids
+                    .map((id) => genres.find((obj) => obj.id === id)?.name)
+                    .filter((name) => name)
+                    .map((genreItem, index) => (
+                      <Tag key={index} className="genre">
+                        {genreItem}
+                      </Tag>
+                    ))}
+                </div>
+              )}
+              <div className="card-date">{releaseDate}</div>
+              <div className={`card-description ${descriptionLines}`}>{overview}</div>
+              <Rate className="rate" count={10} value={ratedStars} onChange={onChangeStar} />
+            </div>
           </div>
-        </div>
-      )}
-    </>
+        )}
+      </>
+    </ErrorBoundary>
   )
 }
 

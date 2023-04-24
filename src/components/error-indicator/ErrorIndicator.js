@@ -1,7 +1,6 @@
 import React from 'react'
 import './ErrorIndicator.css'
 import { Alert } from 'antd'
-import errorPoster from './img/crash_img.jpg'
 
 const ErrorIndicator = (error) => {
   console.log(error)
@@ -14,7 +13,6 @@ const ErrorIndicator = (error) => {
         description="Something went wrong! Despite everything Tom Cruise and Chip & Dale are already rushing to fix it!"
         banner
       />
-      <img className="error-poster" src={errorPoster} alt="funny poster"></img>
     </div>
   )
 }

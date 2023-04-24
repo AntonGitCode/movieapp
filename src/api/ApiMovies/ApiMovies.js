@@ -2,7 +2,6 @@ const BASE_URL = 'https://api.themoviedb.org/3'
 
 export default class ApiMovies {
   _searchUrl = '/search/movie'
-  _baseUrl = 'https://api.themoviedb.org/3/search/movie'
   _apiKey = 'a0ebd979d0247d439d1914491e74f506'
   _language = 'en-US'
 

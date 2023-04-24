@@ -7,6 +7,7 @@ import { Spin } from 'antd'
 import ErrorIndicator from '../error-indicator'
 import { TabContext } from '../TabContext/TabContext'
 import { GuestSessionContext } from '../../GuestSessionContext'
+import { ErrorBoundary } from 'react-error-boundary'
 
 const TabContent = () => {
   const { inputSearch, currentPage, setMovies, ratedMovies } = useContext(TabContext)
@@ -56,19 +57,21 @@ const TabContent = () => {
   const spinner = loading ? <Spin className="spinner" size="large" /> : null
 
   return (
-    <div>
-      {errorMessage}
-      {spinner}
-      {hasData ? (
-        <Content
-          currentPage={currentPage}
-          inputSearch={inputSearch}
-          totalItems={totalItems}
-          updateMovies={updateMovies}
-          isLocalStorageSupported={isLocalStorageSupported}
-        ></Content>
-      ) : null}
-    </div>
+    <ErrorBoundary fallbackRender={({ error }) => <ErrorIndicator error={error} />}>
+      <div>
+        {errorMessage}
+        {spinner}
+        {hasData ? (
+          <Content
+            currentPage={currentPage}
+            inputSearch={inputSearch}
+            totalItems={totalItems}
+            updateMovies={updateMovies}
+            isLocalStorageSupported={isLocalStorageSupported}
+          ></Content>
+        ) : null}
+      </div>
+    </ErrorBoundary>
   )
 }
 

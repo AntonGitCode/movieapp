@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorIndicator from '../error-indicator'
 import MovieCard from '../MovieCard/MovieCard'
 import './Content.css'
 import { Alert, Pagination } from 'antd'
@@ -25,7 +27,7 @@ export default class Content extends Component {
     const isEmptyRatedMovies = activeTab === 1 && ratedMoviesArr.length > 0
 
     return (
-      <>
+      <ErrorBoundary fallbackRender={({ error }) => <ErrorIndicator error={error} />}>
         <div className="wrapper">
           {activeTab === 0 && (
             <input
@@ -90,7 +92,7 @@ export default class Content extends Component {
             />
           )}
         </div>
-      </>
+      </ErrorBoundary>
     )
   }
 }
