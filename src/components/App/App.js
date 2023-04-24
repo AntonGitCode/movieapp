@@ -10,7 +10,6 @@ export default class App extends Component {
   render() {
     const { isLocalStorageSupported } = this.context
     return (
-      // <TabProvider guestSessionId={guestSessionId}>
       <TabProvider>
         <Tabs>
           <Tab label="Search">

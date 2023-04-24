@@ -14,8 +14,6 @@ const MovieCard = ({ movie }) => {
   const { genres, isLocalStorageSupported } = useContext(GuestSessionContext)
 
   const updateRatedMovies = (newRatedMovies) => {
-    console.log('---MovieCard -- updateRatedMovies -- ratedMovies ', newRatedMovies)
-    console.log('---MovieCard -- updateRatedMovies -- isLocalStorageSupported ', isLocalStorageSupported)
     isLocalStorageSupported && localStorage.setItem('ratedMovies', JSON.stringify(newRatedMovies))
     setMovies([...movies], newRatedMovies)
   }
@@ -31,7 +29,6 @@ const MovieCard = ({ movie }) => {
     }
 
     let newRatedMovies = isLocalStorageSupported ? JSON.parse(localStorage.getItem('ratedMovies')) : [...ratedMovies]
-    console.log('--------------------------ratedMovies', newRatedMovies)
     if (number === 0) {
       let ratedMoviesLS
       if (isLocalStorageSupported) {
@@ -43,7 +40,6 @@ const MovieCard = ({ movie }) => {
       updateRatedMovies(ratedMoviesLS)
     } else {
       const ratedMovie = { ...movie, rated: number }
-      console.log('-----ratedMovie--', ratedMovie)
       let indx
       if (newRatedMovies) {
         indx = newRatedMovies.findIndex((obj) => obj.id === movie.id)
@@ -54,7 +50,6 @@ const MovieCard = ({ movie }) => {
           newRatedMovies.push(ratedMovie)
         }
       } else {
-        console.log('-------хитрый консоль -----')
         newRatedMovies = [ratedMovie]
       }
       updateRatedMovies(newRatedMovies)
