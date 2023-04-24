@@ -1,7 +1,7 @@
 import './TabContent.css'
 import React, { useContext, useState, useEffect } from 'react'
 import 'antd/dist/reset.css'
-import ApiMovies from '../../api/ApiMovies/ApiMovies'
+import ApiMovies from '../../api/database/ApiMovies/ApiMovies'
 import Content from '../Content/Content'
 import { Spin } from 'antd'
 import ErrorIndicator from '../error-indicator'

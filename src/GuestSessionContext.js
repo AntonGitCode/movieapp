@@ -1,8 +1,8 @@
 import React from 'react'
 import ErrorIndicator from './components/error-indicator'
 import { Spin } from 'antd'
-import GetSession from './api/GetSession'
-import GetGenres from './api/GetGenres'
+import GetSession from './api/session/GetSession'
+import GetGenres from './api/database/GetGenres'
 
 export const GuestSessionContext = React.createContext()
 

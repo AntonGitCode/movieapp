@@ -1,4 +1,4 @@
-import { getResource } from './GetResource'
+import { getResource } from '../GetResource'
 const BASE_URL = 'https://api.themoviedb.org/3'
 
 export default class GetGenres {
