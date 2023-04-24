@@ -14,6 +14,7 @@ export class GuestSessionProvider extends React.Component {
     genres: null,
     error: false,
     loading: true,
+    isLocalStorageSupported: false,
   }
 
   sessionId = new GetSession()
@@ -27,6 +28,7 @@ export class GuestSessionProvider extends React.Component {
   }
 
   async componentDidMount() {
+    this.setState({ isLocalStorageSupported: !!window.localStorage })
     await this.sessionId
       .getSession()
       .then(({ guest_session_id }) => {
@@ -42,13 +44,13 @@ export class GuestSessionProvider extends React.Component {
   }
 
   render() {
-    const { loading, error, guestSessionId, genres } = this.state
+    const { loading, error, guestSessionId, genres, isLocalStorageSupported } = this.state
     return (
       <>
         {error && <ErrorIndicator error={error} />}
         {loading && <Spin className="spinner" size="large" />}
         {!loading && !error && (
-          <GuestSessionContext.Provider value={{ guestSessionId, genres }}>
+          <GuestSessionContext.Provider value={{ guestSessionId, genres, isLocalStorageSupported }}>
             {this.props.children}
           </GuestSessionContext.Provider>
         )}

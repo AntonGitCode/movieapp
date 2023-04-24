@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { TabContext } from '../TabContext/TabContext'
 import { debounce } from 'lodash'
-// import PropTypes from 'prop-types'
 
 class TabProvider extends Component {
   state = {
@@ -9,15 +8,12 @@ class TabProvider extends Component {
     inputSearch: '',
     currentPage: 1,
     movies: [],
-    // guestSessionId: null,
+    ratedMovies: [],
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.inputSearch !== this.state.inputSearch && this.state.currentPage > 1)
       this.setState({ currentPage: 1 })
-    // if (prevProps.guestSessionId !== this.props.guestSessionId)
-    //   this.setState({ guestSessionId: this.props.guestSessionId })
-    if (prevProps.genres === null && this.props.genres) this.setState({ genres: this.props.genres })
   }
 
   setActiveTab = (index) => {
@@ -50,13 +46,12 @@ class TabProvider extends Component {
     else this.setState({ inputSearch: '' })
   }
 
-  setMovies = (newMovies, genres = this.props.genres) => {
-    this.setState({ movies: newMovies, genres: genres })
+  setMovies = (newMovies, newRatedMovies) => {
+    this.setState({ movies: newMovies, ratedMovies: newRatedMovies })
   }
 
   render() {
-    // const { activeTab, inputSearch, currentPage, movies, currentPageRated, guestSessionId } = this.state
-    const { activeTab, inputSearch, currentPage, movies, currentPageRated } = this.state
+    const { activeTab, inputSearch, currentPage, movies, currentPageRated, ratedMovies } = this.state
 
     const { children } = this.props
 
@@ -68,18 +63,14 @@ class TabProvider extends Component {
       currentPage,
       onChangePage: this.onChangePage,
       movies,
+      ratedMovies,
       setMovies: this.setMovies,
       currentPageRated,
       onChangePageRated: this.onChangePageRated,
-      // guestSessionId,
     }
 
     return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>
   }
 }
-
-// TabProvider.propTypes = {
-// guestSessionId: PropTypes.string.isRequired,
-// }
 
 export default TabProvider

@@ -9,8 +9,8 @@ import { TabContext } from '../TabContext/TabContext'
 import { GuestSessionContext } from '../../GuestSessionContext'
 
 const TabContent = () => {
-  const { inputSearch, currentPage, setMovies } = useContext(TabContext)
-  const { guestSessionId } = useContext(GuestSessionContext)
+  const { inputSearch, currentPage, setMovies, ratedMovies } = useContext(TabContext)
+  const { guestSessionId, isLocalStorageSupported } = useContext(GuestSessionContext)
 
   const [state, setState] = useState({
     totalItems: null,
@@ -26,7 +26,7 @@ const TabContent = () => {
 
   const updateMovies = () => {
     const headers = { Authorization: `Bearer ${guestSessionId}` }
-    const ratedMoviesLS = JSON.parse(localStorage.getItem('ratedMovies'))
+    const ratedMoviesLS = isLocalStorageSupported ? JSON.parse(localStorage.getItem('ratedMovies')) : [...ratedMovies]
 
     apiMovies
       .getAllMovies(inputSearch, currentPage, headers)
@@ -39,7 +39,7 @@ const TabContent = () => {
             })
           }
         }
-        setMovies(returnArr)
+        setMovies(returnArr, ratedMoviesLS)
         setState({ totalItems: totalItems, loading: false, error: false })
       })
       .catch(onError)
@@ -65,6 +65,7 @@ const TabContent = () => {
           inputSearch={inputSearch}
           totalItems={totalItems}
           updateMovies={updateMovies}
+          isLocalStorageSupported={isLocalStorageSupported}
         ></Content>
       ) : null}
     </div>

@@ -10,11 +10,14 @@ import PropTypes from 'prop-types'
 import errorPoster from './images/no-poster-found.png'
 
 const MovieCard = ({ movie }) => {
-  const { movies, activeTab, setMovies } = useContext(TabContext)
-  const { genres } = useContext(GuestSessionContext)
-  const updateRatedMovies = (ratedMovies) => {
-    localStorage.setItem('ratedMovies', JSON.stringify(ratedMovies))
-    setMovies([...movies])
+  const { movies, activeTab, setMovies, ratedMovies } = useContext(TabContext)
+  const { genres, isLocalStorageSupported } = useContext(GuestSessionContext)
+
+  const updateRatedMovies = (newRatedMovies) => {
+    console.log('---MovieCard -- updateRatedMovies -- ratedMovies ', newRatedMovies)
+    console.log('---MovieCard -- updateRatedMovies -- isLocalStorageSupported ', isLocalStorageSupported)
+    isLocalStorageSupported && localStorage.setItem('ratedMovies', JSON.stringify(newRatedMovies))
+    setMovies([...movies], newRatedMovies)
   }
 
   const onChangeStar = (number) => {
@@ -27,22 +30,34 @@ const MovieCard = ({ movie }) => {
       })
     }
 
-    let ratedMovies = JSON.parse(localStorage.getItem('ratedMovies'))
-
+    let newRatedMovies = isLocalStorageSupported ? JSON.parse(localStorage.getItem('ratedMovies')) : [...ratedMovies]
+    console.log('--------------------------ratedMovies', newRatedMovies)
     if (number === 0) {
-      const ratedMovies = JSON.parse(localStorage.getItem('ratedMovies')).filter((obj) => obj.id !== movie.id)
-      updateRatedMovies(ratedMovies)
+      let ratedMoviesLS
+      if (isLocalStorageSupported) {
+        ratedMoviesLS = JSON.parse(localStorage.getItem('ratedMovies')).filter((obj) => obj.id !== movie.id)
+      } else {
+        if (ratedMovies) ratedMoviesLS = ratedMovies.filter((obj) => obj.id !== movie.id)
+        else ratedMoviesLS = []
+      }
+      updateRatedMovies(ratedMoviesLS)
     } else {
       const ratedMovie = { ...movie, rated: number }
-      const indx = ratedMovies.findIndex((obj) => obj.id === movie.id)
+      console.log('-----ratedMovie--', ratedMovie)
+      let indx
+      if (newRatedMovies) {
+        indx = newRatedMovies.findIndex((obj) => obj.id === movie.id)
 
-      if (indx >= 0) {
-        ratedMovies[indx] = ratedMovie
+        if (indx >= 0) {
+          newRatedMovies[indx] = ratedMovie
+        } else {
+          newRatedMovies.push(ratedMovie)
+        }
       } else {
-        ratedMovies.push(ratedMovie)
+        console.log('-------хитрый консоль -----')
+        newRatedMovies = [ratedMovie]
       }
-
-      updateRatedMovies(ratedMovies)
+      updateRatedMovies(newRatedMovies)
     }
   }
 

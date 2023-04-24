@@ -13,13 +13,16 @@ export default class Content extends Component {
   }
 
   render() {
-    const { inputSearch, currentPage, totalItems } = this.props
-    const { handleChange, onChangePage, movies, activeTab, currentPageRated, onChangePageRated } = this.context
+    const { inputSearch, currentPage, totalItems, isLocalStorageSupported } = this.props
+    const { handleChange, onChangePage, movies, activeTab, currentPageRated, onChangePageRated, ratedMovies } =
+      this.context
 
     let moviesArr = [...movies]
-    let ratedMoviesArr = JSON.parse(localStorage.getItem('ratedMovies'))
+
+    let ratedMoviesArr = isLocalStorageSupported ? JSON.parse(localStorage.getItem('ratedMovies')) : [...ratedMovies]
+
     const isEmptyMovies = activeTab === 0 && !movies.length && inputSearch
-    const isEmptyRatedMovies = activeTab === 1 && (!ratedMoviesArr || !ratedMoviesArr.length)
+    const isEmptyRatedMovies = activeTab === 1 && ratedMoviesArr.length > 0
 
     return (
       <>
