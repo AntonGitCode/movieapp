@@ -34,8 +34,7 @@ const MovieCard = ({ movie }) => {
       if (isLocalStorageSupported) {
         ratedMoviesLS = JSON.parse(localStorage.getItem('ratedMovies')).filter((obj) => obj.id !== movie.id)
       } else {
-        if (ratedMovies) ratedMoviesLS = ratedMovies.filter((obj) => obj.id !== movie.id)
-        else ratedMoviesLS = []
+        ratedMoviesLS = ratedMovies ? ratedMovies.filter((obj) => obj.id !== movie.id) : []
       }
       updateRatedMovies(ratedMoviesLS)
     } else {
