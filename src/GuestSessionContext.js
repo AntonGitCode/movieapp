@@ -28,7 +28,7 @@ export class GuestSessionProvider extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({ isLocalStorageSupported: !!window.localStorage })
+    this.setState({ isLocalStorageSupported: Boolean(window.localStorage) })
     await this.sessionId
       .getSession()
       .then(({ guest_session_id }) => {
