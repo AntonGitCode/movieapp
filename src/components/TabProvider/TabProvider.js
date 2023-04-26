@@ -28,13 +28,14 @@ class TabProvider extends Component {
     this.setState({ currentPageRated: page })
   }
 
-  debounceOnChange = debounce((value) => this.searchMovies(value), 400)
+  debounceOnChange = debounce((value) => {
+    this.searchMovies(value)
+  }, 400)
 
   handleChange = (e) => {
     const value = e.target.value
-    this.setState({ inputSearch: value }, () => {
-      this.debounceOnChange(this.state.inputSearch)
-    })
+    this.setState({ inputSearch: value })
+    this.debounceOnChange(value)
   }
 
   searchMovies = (value) => {
