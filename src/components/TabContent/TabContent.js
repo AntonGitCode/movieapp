@@ -66,7 +66,7 @@ const TabContent = () => {
           <Content
             currentPage={currentPage}
             inputSearch={inputSearch}
-            totalItems={Math.floor(totalItems / 20)}
+            totalItems={Math.ceil(totalItems / 20)}
             updateMovies={updateMovies}
             isLocalStorageSupported={isLocalStorageSupported}
           ></Content>
