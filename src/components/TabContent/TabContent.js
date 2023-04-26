@@ -32,6 +32,7 @@ const TabContent = () => {
     apiMovies
       .getAllMovies(inputSearch, currentPage, headers)
       .then(({ returnArr, totalItems }) => {
+        console.log('Total Items:', totalItems)
         if (ratedMoviesLS) {
           if (ratedMoviesLS.length > 0 && returnArr.length > 0) {
             returnArr.forEach((item) => {
@@ -65,7 +66,7 @@ const TabContent = () => {
           <Content
             currentPage={currentPage}
             inputSearch={inputSearch}
-            totalItems={totalItems}
+            totalItems={Math.floor(totalItems / 20)}
             updateMovies={updateMovies}
             isLocalStorageSupported={isLocalStorageSupported}
           ></Content>
