@@ -6,55 +6,55 @@
   box-shadow: 0px 4px 12px 0px #00000026;
 }
 
-  .card-poster {
-    margin:0;
-    padding:0;
-  }  
+.card-poster {
+  margin: 0;
+  padding: 0;
+}
 
-  .card-info {
-    position: relative;
-    width: 100%;
-    padding-top: .8rem;
-    padding-bottom: .8rem;
-    padding-right: .9rem;
-    overflow: hidden;
-  }
+.card-info {
+  position: relative;
+  width: 100%;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  padding-right: 0.9rem;
+  overflow: hidden;
+}
 
-    .card-title {
-      width: 90%;
-      font-size: 20px;
-      line-height: 28px;
-    }
+.card-title {
+  width: 90%;
+  font-size: 20px;
+  line-height: 28px;
+}
 
-    .card-date {
-      font-size: 12px;
-      line-height: 22px;
-      color: #827E7E;
-      padding-top: 7px;
-    }
+.card-date {
+  font-size: 12px;
+  line-height: 22px;
+  color: #827e7e;
+  padding-top: 7px;
+}
 
-    .card-description {
-      padding-top: 7px;
-      font-size: 12px;
-      line-height: 22px;
-      overflow: hidden;
-      -webkit-line-clamp: 5;
-      display: -webkit-box; 
-      -webkit-box-orient: vertical; 
-    }
+.card-description {
+  padding-top: 7px;
+  font-size: 12px;
+  line-height: 22px;
+  overflow: hidden;
+  -webkit-line-clamp: 5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
 
-    .card-description.clamp--four {
-      -webkit-line-clamp: 4;
-    }
-    .card-description.clamp--three {
-      -webkit-line-clamp: 3;
-    }
-    .card-description.clamp--two {
-      -webkit-line-clamp: 2;
-    }
-    .card-description.clamp--one {
-      -webkit-line-clamp: 1;
-    }
+.card-description.clamp--four {
+  -webkit-line-clamp: 4;
+}
+.card-description.clamp--three {
+  -webkit-line-clamp: 3;
+}
+.card-description.clamp--two {
+  -webkit-line-clamp: 2;
+}
+.card-description.clamp--one {
+  -webkit-line-clamp: 1;
+}
 
 .rate {
   white-space: nowrap;
@@ -80,19 +80,19 @@
 }
 
 .circle.border-bad {
-  border-color: #E90000;
+  border-color: #e90000;
 }
 
 .circle.border-good {
-  border-color: #E97E00;
+  border-color: #e97e00;
 }
 
 .circle.border-best {
-  border-color: #E9D100;
+  border-color: #e9d100;
 }
 
 .circle.border-genius {
-  border-color: #66E900;
+  border-color: #66e900;
 }
 
 .genres {

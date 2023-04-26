@@ -1,13 +1,15 @@
-import './TabContent.css'
 import React, { useContext, useState, useEffect } from 'react'
-import 'antd/dist/reset.css'
+import { Spin } from 'antd'
+import { ErrorBoundary } from 'react-error-boundary'
+
 import ApiMovies from '../../api/database/ApiMovies/ApiMovies'
 import Content from '../Content/Content'
-import { Spin } from 'antd'
 import ErrorIndicator from '../error-indicator'
 import { TabContext } from '../TabContext/TabContext'
 import { GuestSessionContext } from '../../GuestSessionContext'
-import { ErrorBoundary } from 'react-error-boundary'
+
+import './TabContent.css'
+import 'antd/dist/reset.css'
 
 const TabContent = () => {
   const { inputSearch, currentPage, setMovies, ratedMovies } = useContext(TabContext)
@@ -21,7 +23,7 @@ const TabContent = () => {
 
   const apiMovies = new ApiMovies()
 
-  const onError = (err) => {
+  const onError = () => {
     setState({ error: true, loading: false })
   }
 

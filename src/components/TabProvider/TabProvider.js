@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { TabContext } from '../TabContext/TabContext'
 import { debounce } from 'lodash'
+
+import { TabContext } from '../TabContext/TabContext'
 
 class TabProvider extends Component {
   state = {

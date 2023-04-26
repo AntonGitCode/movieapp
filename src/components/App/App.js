@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import { Alert } from 'antd'
+import { ErrorBoundary } from 'react-error-boundary'
+
 import TabProvider from '../TabProvider'
 import Tabs from '../Tabs'
 import Tab from '../Tab'
 import TabContent from '../TabContent'
 import { GuestSessionContext } from '../../GuestSessionContext'
-import { Alert } from 'antd'
-import { ErrorBoundary } from 'react-error-boundary'
 import ErrorIndicator from '../error-indicator'
 
 export default class App extends Component {

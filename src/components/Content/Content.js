@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import PropTypes from 'prop-types'
+import { Alert, Pagination } from 'antd'
+
 import ErrorIndicator from '../error-indicator'
 import MovieCard from '../MovieCard/MovieCard'
-import './Content.css'
-import { Alert, Pagination } from 'antd'
 import { TabContext } from '../TabContext/TabContext'
-import PropTypes from 'prop-types'
+
+import './Content.css'
 
 export default class Content extends Component {
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.inputSearch !== this.props.inputSearch || prevProps.currentPage !== this.props.currentPage) {
       this.props.updateMovies()
     }

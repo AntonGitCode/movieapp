@@ -1,6 +1,7 @@
 import React from 'react'
-import ErrorIndicator from './components/error-indicator'
 import { Spin } from 'antd'
+
+import ErrorIndicator from './components/error-indicator'
 import GetSession from './api/session/GetSession'
 import GetGenres from './api/database/GetGenres'
 
@@ -20,7 +21,7 @@ export class GuestSessionProvider extends React.Component {
   sessionId = new GetSession()
   genresArray = new GetGenres()
 
-  onError = (err) => {
+  onError = () => {
     this.setState({
       error: true,
       loading: false,

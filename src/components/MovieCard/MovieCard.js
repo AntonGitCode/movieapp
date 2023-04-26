@@ -4,12 +4,14 @@ import './MovieCard.css'
 import { format } from 'date-fns'
 import { enGB } from 'date-fns/locale'
 import { Rate, Tag } from 'antd'
+import PropTypes from 'prop-types'
+import { ErrorBoundary } from 'react-error-boundary'
+
 import { TabContext } from '../TabContext/TabContext'
 import { GuestSessionContext } from '../../GuestSessionContext'
-import PropTypes from 'prop-types'
-import errorPoster from './images/no-poster-found.png'
-import { ErrorBoundary } from 'react-error-boundary'
 import ErrorIndicator from '../error-indicator'
+
+import errorPoster from './images/no-poster-found.png'
 
 const MovieCard = ({ movie }) => {
   const { movies, activeTab, setMovies, ratedMovies } = useContext(TabContext)
@@ -79,29 +81,19 @@ const MovieCard = ({ movie }) => {
 
   const releaseDate = release_date ? format(new Date(release_date), 'MMMM dd, yyyy', { locale: enGB }) : null
 
-  const descriptionLines =
-    title.length > 50 && genre_ids.length > 3
-      ? 'clamp--one'
-      : title.length > 35 && genre_ids.length > 3
-      ? 'clamp--two'
-      : title.length > 19 && genre_ids.length > 3
-      ? 'clamp--three'
-      : title.length > 50
-      ? 'clamp--two'
-      : title.length > 35
-      ? 'clamp--three'
-      : title.length > 19
-      ? 'clamp--four'
-      : ''
+  let descriptionLines
 
-  const circleColorRate =
-    vote_average <= 3
-      ? 'border-bad'
-      : vote_average <= 5
-      ? 'border-good'
-      : vote_average <= 7
-      ? 'border-best'
-      : 'border-genius'
+  if (title.length > 19) descriptionLines = 'clamp--four'
+  if (title.length > 35) descriptionLines = 'clamp--three'
+  if (title.length > 50) descriptionLines = 'clamp--two'
+  if (title.length > 19 && genre_ids.length > 3) descriptionLines = 'clamp--three'
+  if (title.length > 35 && genre_ids.length > 3) descriptionLines = 'clamp--two'
+  if (title.length > 50 && genre_ids.length > 3) descriptionLines = 'clamp--one'
+
+  let circleColorRate
+  if (vote_average <= 7) circleColorRate = 'border-best'
+  if (vote_average <= 5) circleColorRate = 'border-good'
+  if (vote_average <= 3) circleColorRate = 'border-bad'
 
   return (
     <ErrorBoundary fallbackRender={({ error }) => <ErrorIndicator error={error} />}>
@@ -109,7 +101,6 @@ const MovieCard = ({ movie }) => {
         {(activeTab === 0 || (activeTab === 1 && movie['rated'] > 0)) && (
           <div className="card">
             {poster}
-            {/* <img className="card-poster" src={posterUrl} alt={title} /> */}
             <div className="card-info">
               <div className={`circle ${circleColorRate}`}>{vote_average.toFixed(1)}</div>
               <div className="card-title">{title}</div>
