@@ -30,14 +30,7 @@ export default class Content extends Component {
       <ErrorBoundary fallbackRender={({ error }) => <ErrorIndicator error={error} />}>
         <div className="wrapper">
           {activeTab === 0 && (
-            <input
-              type="text"
-              className="search"
-              placeholder="Type to search..."
-              onChange={handleChange}
-              value={inputSearch}
-              autoFocus
-            />
+            <input type="text" className="search" placeholder="Type to search..." onChange={handleChange} autoFocus />
           )}
 
           {isEmptyMovies && (
